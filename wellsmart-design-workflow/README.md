@@ -17,7 +17,7 @@ Claude Code lists it under available skills; it triggers on design-workflow requ
 
 ```
 wellsmart-design-workflow/
-├── SKILL.md                     the workflow: 17 hard rules, roles, stage map, output formats
+├── SKILL.md                     the workflow: 18 hard rules, roles, stage map, output formats
 ├── references/
 │   ├── stages.md                S0–S10 and after: inputs, AI work, outputs, freezes, people; manual Revit; write-back; handover
 │   ├── disciplines.md           what each discipline produces and calculates; pump logic; structural steps; thermal split
@@ -25,6 +25,7 @@ wellsmart-design-workflow/
 │   ├── review-hub.md            the two-model review loop: blind / full packets, passes, states, retention, server and CI variants
 │   ├── certification.md         regions (QLD RPEQ, NSW DBP, NZ PS1/PS2, Japan), packages A / B / C, ten contract items, endorsements
 │   ├── calc-coverage.md         the "no silent omission" rule: master list, coverage file, statuses, filling rules
+│   ├── operator-prompts.md      what the PM / operator types at each step (中文 + English); the skill carries the rest
 │   ├── services-coordination-2d.md  2D clash avoidance before 3D: lanes, ceiling-zone budget, crossings register, per-stage MEP drawing spec
 │   ├── drawing-standards.md     numbering, depth benchmark (HY-0040), annotation, QA overlay, manifest
 │   ├── drawing-list.md          sheets per checkpoint and per level; level–sheet–revision matrix
@@ -47,7 +48,7 @@ wellsmart-design-workflow/
 │   ├── coord_check.py           2D services coordination checker: envelope, crossings, depth budget, parallel clearance, drains; SVG
 │   └── annotate.py              annotation engine (aligned columns, non-crossing leaders, keyed notes) + sheet checker
 ├── templates/
-│   ├── calc-templates/          calc-master-list.csv (218 rows, 13 disciplines), calc-page.md (the per-calc page format)
+│   ├── calc-templates/          calc-master-list.csv (223 rows, 13 disciplines), calc-page.md (the per-calc page format)
 │   ├── brief.md · design-basis-report.md · calc-register.csv · compliance-matrix.csv · gate-report.md
 │   ├── issue-register.csv · issue.schema.json · decision-record.md · release-sheet.md · endorsement-record.json
 │   ├── handover-matrix.csv · asset-register.csv · commissioning-tests.csv · results.schema.json

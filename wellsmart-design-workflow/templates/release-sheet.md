@@ -30,8 +30,9 @@ Frozen release cited (`scripts/catalogue.py release`): project_release_id =
 | 8 | Production drawings, BQ and spec at the same revision (section 1) | | | | |
 | 9 | Dual certification / local-only rule satisfied for the category | source certificate; NATA / ILAC report; scheme mark; or "local-only" | | | |
 | 10 | Vendor handover requirements written into the RFQ / PO (O&M, as-built, serials, points list, commissioning, warranty basis, spares, training, contacts; asset ids and upload points) | RFQ / PO document_id / revision_id | | | |
+| 11 | MEP packages only: final coordination completed in BIM to LOD 400 by the MEP department (fittings, supports, seismic restraint, sleeves, spools) against the frozen IFC / DB and the crossings register; design changes written back by element id | BIM model revision; MEP department sign-off; write-back diff reference | | | |
 
-Counts: PASS · FAIL · NOT CALCULATED · TBC · N/A . Release requires FAIL = 0, NOT CALCULATED = 0 and no TBC on lines 1–8.
+Counts: PASS · FAIL · NOT CALCULATED · TBC · N/A . Release requires FAIL = 0, NOT CALCULATED = 0 and no TBC on lines 1–8; MEP packages also require line 11 = PASS.
 
 ## 3. Decision
 

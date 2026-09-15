@@ -36,7 +36,10 @@ db/services-routes.json
                  min_side_clearance (0.10), access_side_clearance (0.30), band_order (list, from the
                  soffit downwards; keys are families, plus "FIRE" for any run of the FIRE system).
   run fields     id (unique), system (system_id; runs of the SAME system are never checked
-                 against each other), family DUCT | PIPE | TRAY | DRAIN | BUSWAY | CONDUIT,
+                 against each other), family DUCT | PIPE | TRAY | DRAIN | BUSWAY | CONDUIT | BRACE
+                 (BRACE = the plan envelope of a seismic brace strut, width x depth, never LARGE;
+                 declared with the SAME system as the run it braces, where it crosses a lane,
+                 so it is checked against every other system but not against its own run),
                  path (>= 2 vertices, metres), size, insulation (m; number or {"thickness": m}),
                  RLs, optional sheet, needs_access (sides: top, bottom, left, right, side),
                  priority (1 = most fixed; a clash message names the other run as the one to move),
@@ -139,8 +142,8 @@ REGISTER_MATCH_RADIUS = 0.5  # m
 REGISTER_RL_TOL = 0.005      # m
 RL_SPAN_TOL = 0.010          # m
 
-FAMILIES = ("DUCT", "PIPE", "TRAY", "DRAIN", "BUSWAY", "CONDUIT")
-RECT_FAMILIES = ("DUCT", "TRAY", "BUSWAY")
+FAMILIES = ("DUCT", "PIPE", "TRAY", "DRAIN", "BUSWAY", "CONDUIT", "BRACE")
+RECT_FAMILIES = ("DUCT", "TRAY", "BUSWAY", "BRACE")
 ROUND_FAMILIES = ("PIPE", "DRAIN", "CONDUIT")
 FIRE_SYSTEMS = ("FIRE", "FS", "FH", "SPR", "SPK", "FHR", "SPRINKLER", "HYDRANT")
 SEVERITIES = ("P0", "P1", "P2", "INFO")
@@ -160,7 +163,7 @@ STEEL_OD = {15: 0.0213, 20: 0.0269, 25: 0.0337, 32: 0.0424, 40: 0.0483, 50: 0.06
             350: 0.3556, 400: 0.4064, 450: 0.4572, 500: 0.508, 600: 0.6096}
 
 FAMILY_COLOUR = {"DUCT": "#2b6cb0", "PIPE": "#2f855a", "TRAY": "#dd6b20", "DRAIN": "#8b5a2b",
-                 "BUSWAY": "#6b46c1", "CONDUIT": "#4a5568", "FIRE": "#c53030"}
+                 "BUSWAY": "#6b46c1", "CONDUIT": "#4a5568", "BRACE": "#805ad5", "FIRE": "#c53030"}
 SEVERITY_COLOUR = {"P0": "#c53030", "P1": "#dd6b20", "P2": "#718096", "INFO": "#718096", "OK": "#2f855a"}
 
 
@@ -532,6 +535,8 @@ class Run:
         return self.band or ("FIRE" if self.is_fire() else self.family)
 
     def is_large(self, thr: Thresholds) -> bool:
+        if self.family == "BRACE":
+            return False
         if self.family == "DUCT":
             return self.width >= thr.duct_width - EPS or self.depth >= thr.duct_depth - EPS
         if self.family == "BUSWAY":
@@ -1302,7 +1307,7 @@ def render_svg(ctx: Context, rows: list[dict], title: str) -> str:
     ly = H - legend_h + 20
     out.append(f'<text x="{margin}" y="{ly}" font-weight="bold">Legend</text>')
     lx = margin
-    for name in ("DUCT", "PIPE", "TRAY", "DRAIN", "BUSWAY", "CONDUIT", "FIRE"):
+    for name in ("DUCT", "PIPE", "TRAY", "DRAIN", "BUSWAY", "CONDUIT", "BRACE", "FIRE"):
         out.append(f'<rect x="{lx}" y="{ly + 8}" width="18" height="10" fill="{FAMILY_COLOUR[name]}" fill-opacity="0.6"/>'
                    f'<text x="{lx + 22}" y="{ly + 17}">{name}{" system" if name == "FIRE" else ""}</text>')
         lx += 95

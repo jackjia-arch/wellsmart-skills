@@ -188,7 +188,7 @@ In pilot mode there is no web viewer: the IFC is inspected in Blender + Bonsai b
 
 ## Manual Revit hand-off at S10
 
-The drafting team builds all Revit content by hand from the frozen IFC / DB / drawings; no automation development is scheduled for this (SKILL.md, roles). The contract between the two worlds:
+The drafting team builds all Revit content by hand from the frozen IFC / DB / drawings; no automation development is scheduled for this (SKILL.md, roles). The MEP department completes the final services coordination in that BIM to LOD 400 — fittings, hangers and supports, seismic restraint, sleeves, fabrication spools, equipment connections — starting from the S6 crossings register and the S7 clash-free IFC, which are the design baseline and not the end state; each MEP release sheet carries that coordination sign-off (`templates/release-sheet.md` line 11). The contract between the two worlds:
 
 - `model/id-map.csv` — DB id ↔ IFC GlobalId ↔ Revit ElementId — is maintained by the drafting team from the first element; every element that carries a DB id in the IFC has a row once it is modelled. An element without a row is not traceable and is a defect in the drawing QA.
 - Every Revit version is diffed against the previous one for design parameters and geometry (dimensions, loads, materials, equipment, interfaces, controls, performance, new anchors / supports / penetrations). IFC and RVT are never assumed equivalent; equivalence is what the diff shows.
