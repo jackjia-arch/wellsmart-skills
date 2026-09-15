@@ -1,0 +1,29 @@
+{
+  "endorsement_id": "<END-NNNN, issued by scripts/catalogue.py attach --kind endorsement, or the portal>",
+  "document_id": "<DOC-<DISC>-<NNNN> of the endorsed document>",
+  "revision_id": "<Rnn — the exact revision the signature covers; the only revision that may be marked consultant-endorsed>",
+  "revision_sha256": "<SHA-256 of the catalogue revision's original bytes>",
+  "sha256": "<SHA-256 of the received signed original, byte-for-byte, as received>",
+  "attachment_id": "<ATT-NNNN of the stored signed original / letter>",
+  "signer": "<person who signed, as named on the document>",
+  "firm": "<signing firm>",
+  "discipline": "<discipline the signature covers>",
+  "date": "<YYYY-MM-DD on the signature or covering letter>",
+  "conditions": "<conditions attached to the endorsement, verbatim or by reference to the letter; empty string if none>",
+  "scope": "<floors, systems, disciplines and package covered, e.g. L22 CHW or S9 package>",
+  "covering_letter_ref": "<reference to the covering letter or confirmation email (attachment id or filename)>",
+  "package_manifest": [
+    {
+      "document_id": "<DOC-<DISC>-<NNNN> of each file in a package signature, one line per signed file>",
+      "revision_id": "<Rnn>",
+      "sha256": "<SHA-256 of that file's original>",
+      "verified": "<true when the line matches the catalogue; any false line keeps status 'to be confirmed'>"
+    }
+  ],
+  "digital_signature_verified": false,
+  "received_date": "<YYYY-MM-DD received; register within one working day (company target)>",
+  "registered_by": "<PM or discipline lead who registered it>",
+  "registered_date": "<YYYY-MM-DD registered>",
+  "status": "consultant-endorsed",
+  "note": "Covers this revision_id only; a later revision never inherits it. Originals stay byte-for-byte unchanged; previews and OCR are linked copies. A scanned signature is not a verified digital signature: digital_signature_verified stays false unless a digital signature was actually verified. Endorsement, construction issue and as-built acceptance are three separate records; none of them is a technical PASS. Status is 'to be confirmed' while the manifest or scope is unclear, and the revision is then not marked endorsed."
+}

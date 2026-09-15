@@ -1,0 +1,41 @@
+{
+  "skill_name": "wellsmart-design-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "New project: 14-villa hillside resort at Funnel Bay, Whitsundays QLD, 3-bed villas about 180 m2 each, premium finishes, CLT or steel frame TBD, all-electric, target A$2.4M build per villa. Start S0 and give me the brief, the site data pack index and the certification pathway. I don't have geotech yet.",
+      "expected_output": "A completed brief template with every field filled or marked ASSUMED — TBC (QLD, Class 1a/1b or 3 decision stated, NCC edition and state variations locked, cyclonic Region C wind, BAL flagged), a site data pack index listing geotech as to-commission, a QLD pathway (RPEQ or direct supervision named, Form 15 later, private certifier), the specialist matrix and handover matrix with PM and Operation Owner named, a version lock, a programme with gate dates and a G0 gate report with the high-risk table rows marked NOT CALCULATED / TBC (never N/A for missing inputs) and a calc coverage summary for S0. No questions back to the user; no consultant contact suggested.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Size the cold water system for a 12-storey, 180-key hotel in Brisbane: rooms L3–L12, 15 keys per floor, mains 450 kPa, floor-to-floor 3.2 m, tank on the roof. I want the schematic content and the pump duties.",
+      "expected_output": "Fixture-unit based demand, pressure zoning from the 250–500 kPa window (about 8 floors per gravity zone), transfer and booster pump duties with calc IDs (H-xxx) each written as a calc page (purpose, standard record id, formula, inputs with sources, steps, result, check, selection, assumptions), tank volume with hours of storage, residual at the most disadvantaged point, a schematic content list to HY-0040 depth plus the eight additions, ASSUMED — TBC lines for diversity and per-key demand with owner and expiry gate, calc register rows, and the HYD coverage rows (HYD-CW-01…07) answered — not prose alone.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We're at G4 on the Queenstown serviced apartments. Write the gate report. Layer 1 checks passed except 3 missing calc IDs on E-101; blind re-calc of max demand gave 780 kVA vs our 720 kVA; the checker hasn't looked yet.",
+      "expected_output": "A gate report in the template format: outputs list, script checks with the 3 missing calc IDs as a P1 finding, blind re-calc table showing 720 vs 780 kVA (8.3 %, over the 5 % tolerance → P1 finding on the calc, third family or checker to arbitrate), the calculation coverage section (rows per discipline PASS / FAIL / NOT CALCULATED / TBC / N/A from calcs/coverage-S6.csv), the high-risk table with the v2 columns (check item / evidence and method / result vs limit and technical status / gate handling; NZ context: NZS 1170.5 seismic, PS1 pathway), review state RESPONSE_REQUIRED, open issues by severity, what the PD must decide, and a statement that G4 (a design baseline, not a manufacturing release) cannot be signed until the calc IDs are added and the demand difference is closed. Dated, no version label.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Here is our S6 MECH calc book for the tower (40 calcs, all duct and pipe sizing, plant selection, insulation). Is it complete for G4?",
+      "expected_output": "The AI does not accept the book as complete: it generates or asks for calcs/coverage-S6.csv from the master list, lists the MECH rows with no calc (ventilation rates, kitchen exhaust, car park, stair pressurisation, smoke control, duct pressure class, refrigerant safety, plant-room ventilation, condensation, fire-mode matrix, J6 checks, riser sizing, louvre separations…) as NOT CALCULATED with what is missing and an owner, marks any genuinely inapplicable rows N/A with the condition and an acceptor, refuses statuses like 'to be verified manually' or 'per manufacturer', and states that G4 cannot close until the coverage check passes. It also asks for the coord_check reports per level because MECH layouts are not issued without them.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Draw M-131 supply and return air layout for L22 plant at 1:50. The 1000×500 SA duct runs down the corridor and the DN150 CHWS/CHWR pair runs across it near grid C/7.",
+      "expected_output": "Before drawing, the AI runs (or asks for) scripts/coord_check.py on db/services-routes.json for L22, reports the crossing at C/7 as a large × large crossing that needs a register entry and a C-300 section, states the band order (duct above pipes), the RLs at the crossing and the depth budget of the zone, and only then draws the sheet with size and RL labels at every change and at the crossing, the crossing id bubble, the zone envelope in the title area, the CROSSINGS ON THIS SHEET table, declared annotations laid out by annotate.py, the manifest and the QA counts. If the zone budget fails it proposes the fix in the DB (route, band, split duct) instead of drawing the clash.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "The façade sub wants to fix the roof sheeting at 900 mm centres everywhere on the Whitsundays villas. Fine?",
+      "expected_output": "Not accepted as stated: the AI answers with the FAC-ROOF-01 / FAC-FIX-02 rows — cladding pressures per zone from AS/NZS 1170.2 (or AS 4055) with local pressure factors for edges and corners in Region C cyclonic, the manufacturer's tested spans and fixing patterns at those pressures including low-high-low cyclic testing, spacing = tested fastener capacity ÷ (pressure × tributary area) computed per zone, tighter at edges and corners — with calc IDs, ASSUMED — TBC lines for any missing test data with the vendor as owner, and a fixing schedule per zone rather than one spacing everywhere. It does not say 'per manufacturer'.",
+      "files": []
+    }
+  ]
+}

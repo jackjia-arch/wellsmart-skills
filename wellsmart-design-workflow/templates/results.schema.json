@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Well Smart EnergyPlus results",
+  "description": "results.json written by the EnergyPlus runbook (references/toolchain.md) and read back by Cowork / Claude Code. run_status is the first thing a reader checks: a failed or not_run result carries error_message and no PASS of any kind; the report says 'not run' or 'failed', never PASS. design_* values are design-day sizing results (with the sizing factor applied) and are what S5 equipment selection uses; peak_* values are the annual-run peaks; annual_kWh is the energy result. compliance.verdict and vendor_duty_check[].status use the fixed vocabulary and are only meaningful when run_status is completed.",
+  "type": "object",
+  "required": ["project", "stage", "run_status"],
+  "properties": {
+    "project": {"type": "string"},
+    "stage": {"type": "string", "enum": ["loads", "compliance"], "description": "loads = S3 sizing run; compliance = S7 Section J JV3 / NZ H1 run"},
+    "run_status": {"type": "string", "enum": ["completed", "failed", "not_run"], "description": "completed = EnergyPlus finished with the output files present and hashed; failed = it started and did not finish; not_run = it was not started (name the missing input in error_message). Only completed may carry results."},
+    "error_message": {"type": "string", "description": "Required when run_status is failed or not_run: the EnergyPlus error summary, or the missing input / reason. Never reported as PASS."},
+    "date": {"type": "string"},
+    "weather_file": {"type": "string", "description": "EPW file name; its hash is in inputs_manifest"},
+    "energyplus_version": {"type": "string"},
+    "design_day_basis": {
+      "type": "object",
+      "description": "Everything that fixes the sizing run besides the EPW; locked at S3 and cited by the equipment schedule",
+      "required": ["source", "outdoor_conditions", "indoor_setpoints", "outdoor_air_basis", "latent_basis", "diversity", "sizing_factor"],
+      "properties": {
+        "source": {"type": "string", "description": "Where the design-day conditions come from: design-conditions station and edition, or the digest record id"},
+        "outdoor_conditions": {
+          "type": "object",
+          "properties": {
+            "cooling_db_C": {"type": "number"},
+            "cooling_mcwb_C": {"type": "number"},
+            "heating_db_C": {"type": "number"},
+            "percentile": {"type": "string", "description": "e.g. 0.4 % cooling / 99.6 % heating"}
+          }
+        },
+        "indoor_setpoints": {
+          "type": "object",
+          "properties": {
+            "cooling_C": {"type": "number"},
+            "heating_C": {"type": "number"},
+            "rh_percent": {"type": "number"}
+          }
+        },
+        "outdoor_air_basis": {"type": "string", "description": "Standard · year · clause / table and digest id used for outdoor air rates"},
+        "latent_basis": {"type": "string", "description": "Occupancy latent gains, infiltration and any process latent load basis"},
+        "diversity": {"type": "number", "minimum": 0, "maximum": 1, "description": "Block diversity applied to zone sums"},
+        "diversity_basis": {"type": "string"},
+        "sizing_factor": {"type": "number", "minimum": 1, "description": "Applied to design_* values; 1.0 when none"}
+      }
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "area_m2", "peak_cooling_kW", "peak_cooling_time", "peak_heating_kW", "sensible_kW", "latent_kW", "design_cooling_kW", "design_heating_kW"],
+        "properties": {
+          "name": {"type": "string"},
+          "level": {"type": "string"},
+          "area_m2": {"type": "number"},
+          "peak_cooling_kW": {"type": "number", "description": "Annual-run peak"},
+          "peak_cooling_time": {"type": "string"},
+          "peak_heating_kW": {"type": "number", "description": "Annual-run peak"},
+          "peak_heating_time": {"type": "string"},
+          "sensible_kW": {"type": "number"},
+          "latent_kW": {"type": "number"},
+          "design_cooling_kW": {"type": "number", "description": "Design-day sizing result with the sizing factor applied"},
+          "design_heating_kW": {"type": "number", "description": "Design-day sizing result with the sizing factor applied"},
+          "oa_l_s": {"type": "number"}
+        }
+      }
+    },
+    "block_cooling_kW": {"type": "number", "description": "Annual-run coincident block peak"},
+    "block_heating_kW": {"type": "number"},
+    "block_cooling_time": {"type": "string"},
+    "design_cooling_kW": {"type": "number", "description": "Design-day block cooling load with diversity and sizing factor; the S5 selection basis"},
+    "design_heating_kW": {"type": "number", "description": "Design-day block heating load with diversity and sizing factor; the S5 selection basis"},
+    "annual_kWh": {"type": "number"},
+    "monthly_kWh": {"type": "array", "items": {"type": "number"}, "minItems": 12, "maxItems": 12},
+    "facade_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "peak_kW", "annual_kWh", "capex_delta", "opex_delta"],
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "peak_kW": {"type": "number"},
+          "annual_kWh": {"type": "number"},
+          "capex_delta": {"type": "number"},
+          "opex_delta": {"type": "number"},
+          "currency": {"type": "string"},
+          "payback_years": {"type": "number"}
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "properties": {
+        "method": {"type": "string"},
+        "reference_building_kWh": {"type": "number"},
+        "proposed_building_kWh": {"type": "number"},
+        "margin_percent": {"type": "number"},
+        "verdict": {"type": "string", "enum": ["PASS", "FAIL", "NOT CALCULATED"], "description": "PASS only from a completed run whose evidence meets the criterion; NOT CALCULATED when the run failed or was not run"}
+      }
+    },
+    "vendor_duty_check": {
+      "type": "array",
+      "description": "One line per selected item of plant: the vendor's capacity and power at the project's design conditions against the design duty; filled from vendor documents at S5 / G4a, TBC until the vendor confirms",
+      "items": {
+        "type": "object",
+        "required": ["equipment_id", "nominal_kW", "capacity_at_project_conditions_kW", "power_at_project_conditions_kW", "source", "status"],
+        "properties": {
+          "equipment_id": {"type": "string", "description": "DB equipment id / tag, e.g. CH-01"},
+          "design_duty_kW": {"type": "number", "description": "The design_* load this item must meet"},
+          "nominal_kW": {"type": "number", "description": "Catalogue rating at the vendor's rating conditions"},
+          "capacity_at_project_conditions_kW": {"type": ["number", "null"], "description": "Vendor-stated capacity at the design_day_basis conditions; null until confirmed"},
+          "power_at_project_conditions_kW": {"type": ["number", "null"], "description": "Vendor-stated input power at the same conditions; null until confirmed"},
+          "source": {"type": "string", "description": "Vendor document_id / revision_id in the knowledge base, or TBC"},
+          "status": {"type": "string", "enum": ["PASS", "FAIL", "NOT CALCULATED", "TBC", "N/A"], "description": "PASS = confirmed capacity at project conditions ≥ design duty; TBC while the vendor has not replied"}
+        }
+      }
+    },
+    "inputs_manifest": {
+      "type": "array",
+      "description": "Every input file of the run with its SHA-256, so the result is bound to exact inputs (model.idf, EPW, schedules, generator script, DB export)",
+      "items": {
+        "type": "object",
+        "required": ["file", "sha256"],
+        "properties": {
+          "file": {"type": "string"},
+          "sha256": {"type": "string", "minLength": 64, "maxLength": 64},
+          "role": {"type": "string", "enum": ["idf", "epw", "schedule", "script", "db", "other"]},
+          "version": {"type": "string", "description": "Tool or generator version when applicable"}
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["parameter", "value", "status"],
+        "properties": {
+          "parameter": {"type": "string"},
+          "value": {"type": "string"},
+          "status": {"type": "string", "enum": ["ASSUMED", "SOURCE"]},
+          "source": {"type": "string"}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"run_status": {"const": "completed"}}},
+      "then": {"required": ["weather_file", "energyplus_version", "design_day_basis", "zones", "block_cooling_kW", "block_heating_kW", "design_cooling_kW", "design_heating_kW", "annual_kWh", "inputs_manifest", "assumptions"]}
+    },
+    {
+      "if": {"properties": {"run_status": {"enum": ["failed", "not_run"]}}},
+      "then": {
+        "required": ["error_message"],
+        "properties": {
+          "compliance": {"properties": {"verdict": {"const": "NOT CALCULATED"}}},
+          "vendor_duty_check": {"items": {"properties": {"status": {"enum": ["NOT CALCULATED", "TBC", "N/A"]}}}}
+        }
+      }
+    }
+  ]
+}

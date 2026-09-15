@@ -1,0 +1,154 @@
+[
+  {
+    "id": "X-22-001",
+    "runs": [
+      "SA-22-01",
+      "CHWS-22-01"
+    ],
+    "at": [
+      14.0,
+      1.6
+    ],
+    "resolution": "pipe under duct",
+    "over_run": "SA-22-01",
+    "under_run": "CHWS-22-01",
+    "over_bottom_rl": 76.62,
+    "under_top_rl": 76.508,
+    "clearance": 0.055,
+    "section_sheet": "C-322",
+    "status": "RESOLVED"
+  },
+  {
+    "id": "X-22-002",
+    "runs": [
+      "EA-22-01",
+      "CHWS-22-01"
+    ],
+    "at": [
+      14.0,
+      0.7
+    ],
+    "resolution": "pipe under duct",
+    "over_run": "EA-22-01",
+    "under_run": "CHWS-22-01",
+    "over_bottom_rl": 76.72,
+    "under_top_rl": 76.508,
+    "clearance": 0.155,
+    "section_sheet": "C-322",
+    "status": "RESOLVED"
+  },
+  {
+    "id": "X-22-003",
+    "runs": [
+      "EA-22-01",
+      "CHWR-22-01"
+    ],
+    "at": [
+      14.5,
+      0.7
+    ],
+    "resolution": "pipe under duct",
+    "over_run": "EA-22-01",
+    "under_run": "CHWR-22-01",
+    "over_bottom_rl": 76.72,
+    "under_top_rl": 76.508,
+    "clearance": 0.155,
+    "section_sheet": "C-322",
+    "status": "RESOLVED"
+  },
+  {
+    "id": "X-22-004",
+    "runs": [
+      "CHWS-22-01",
+      "CT-22-01"
+    ],
+    "at": [
+      14.0,
+      2.55
+    ],
+    "resolution": "pipe over tray",
+    "over_run": "CHWS-22-01",
+    "under_run": "CT-22-01",
+    "over_bottom_rl": 76.34,
+    "under_top_rl": 76.23,
+    "clearance": 0.078,
+    "section_sheet": "C-322",
+    "status": "RESOLVED"
+  },
+  {
+    "id": "X-22-005",
+    "runs": [
+      "CHWR-22-01",
+      "CT-22-01"
+    ],
+    "at": [
+      14.5,
+      2.55
+    ],
+    "resolution": "pipe over tray",
+    "over_run": "CHWR-22-01",
+    "under_run": "CT-22-01",
+    "over_bottom_rl": 76.34,
+    "under_top_rl": 76.23,
+    "clearance": 0.078,
+    "section_sheet": "C-322",
+    "status": "RESOLVED"
+  },
+  {
+    "id": "X-22-006",
+    "runs": [
+      "SA-22-01",
+      "DR-22-01"
+    ],
+    "at": [
+      5.0,
+      1.6
+    ],
+    "resolution": "drain under duct, invert 76.425",
+    "over_run": "SA-22-01",
+    "under_run": "DR-22-01",
+    "over_bottom_rl": 76.62,
+    "under_top_rl": 76.535,
+    "clearance": 0.06,
+    "section_sheet": "C-323",
+    "status": "RESOLVED"
+  },
+  {
+    "id": "X-22-007",
+    "runs": [
+      "DR-22-01",
+      "CT-22-01"
+    ],
+    "at": [
+      5.0,
+      2.55
+    ],
+    "resolution": "drain over tray",
+    "over_run": "DR-22-01",
+    "under_run": "CT-22-01",
+    "over_bottom_rl": 76.542,
+    "under_top_rl": 76.23,
+    "clearance": 0.312,
+    "section_sheet": "C-323",
+    "status": "RESOLVED"
+  },
+  {
+    "id": "X-22-008",
+    "runs": [
+      "FS-22-01",
+      "DR-22-01"
+    ],
+    "at": [
+      5.0,
+      0.15
+    ],
+    "resolution": "drain under fire main",
+    "over_run": "FS-22-01",
+    "under_run": "DR-22-01",
+    "over_bottom_rl": 77.031,
+    "under_top_rl": 76.608,
+    "clearance": 0.423,
+    "section_sheet": "C-323",
+    "status": "RESOLVED"
+  }
+]

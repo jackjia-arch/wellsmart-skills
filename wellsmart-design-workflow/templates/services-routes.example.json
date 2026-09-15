@@ -1,0 +1,257 @@
+{
+  "level": "L22",
+  "units": "m",
+  "zones": [
+    {
+      "id": "CZ-CORR-A",
+      "polygon": [
+        [
+          0,
+          0
+        ],
+        [
+          20,
+          0
+        ],
+        [
+          20,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "structure_soffit_rl": 77.2,
+      "ceiling_rl": 76.0,
+      "hanger_allowance": 0.05,
+      "ceiling_allowance": 0.03,
+      "band_order": [
+        "FIRE",
+        "DUCT",
+        "PIPE",
+        "TRAY"
+      ],
+      "min_vertical_clearance": 0.05,
+      "min_side_clearance": 0.1,
+      "access_side_clearance": 0.3
+    },
+    {
+      "id": "CZ-CORR-B",
+      "polygon": [
+        [
+          20,
+          0
+        ],
+        [
+          30,
+          0
+        ],
+        [
+          30,
+          3
+        ],
+        [
+          20,
+          3
+        ]
+      ],
+      "structure_soffit_rl": 77.2,
+      "ceiling_rl": 76.45,
+      "hanger_allowance": 0.05,
+      "ceiling_allowance": 0.03,
+      "band_order": [
+        "FIRE",
+        "DUCT",
+        "PIPE",
+        "TRAY"
+      ],
+      "min_vertical_clearance": 0.05,
+      "min_side_clearance": 0.1,
+      "access_side_clearance": 0.3
+    }
+  ],
+  "runs": [
+    {
+      "id": "SA-22-01",
+      "system": "SA",
+      "family": "DUCT",
+      "path": [
+        [
+          0,
+          1.6
+        ],
+        [
+          30,
+          1.6
+        ]
+      ],
+      "width": 1.0,
+      "depth": 0.5,
+      "insulation": 0.025,
+      "top_rl": 77.12,
+      "bottom_rl": 76.62,
+      "sheet": "M-131",
+      "priority": 1,
+      "element_ids": [
+        "DUCT-SA-L22-001"
+      ]
+    },
+    {
+      "id": "EA-22-01",
+      "system": "EA",
+      "family": "DUCT",
+      "path": [
+        [
+          8,
+          0.7
+        ],
+        [
+          20,
+          0.7
+        ]
+      ],
+      "width": 0.6,
+      "depth": 0.4,
+      "insulation": 0.025,
+      "top_rl": 77.12,
+      "bottom_rl": 76.72,
+      "sheet": "M-132",
+      "priority": 2,
+      "element_ids": [
+        "DUCT-EA-L22-004"
+      ]
+    },
+    {
+      "id": "CHWS-22-01",
+      "system": "CHW",
+      "family": "PIPE",
+      "path": [
+        [
+          14,
+          3.0
+        ],
+        [
+          14,
+          0.4
+        ]
+      ],
+      "dn": 150,
+      "od": 0.1683,
+      "insulation": 0.032,
+      "top_rl": 76.508,
+      "bottom_rl": 76.34,
+      "sheet": "M-141",
+      "priority": 3
+    },
+    {
+      "id": "CHWR-22-01",
+      "system": "CHW",
+      "family": "PIPE",
+      "path": [
+        [
+          14.5,
+          3.0
+        ],
+        [
+          14.5,
+          0.4
+        ]
+      ],
+      "dn": 150,
+      "od": 0.1683,
+      "insulation": 0.032,
+      "top_rl": 76.508,
+      "bottom_rl": 76.34,
+      "sheet": "M-141",
+      "priority": 3
+    },
+    {
+      "id": "FS-22-01",
+      "system": "FIRE",
+      "family": "PIPE",
+      "path": [
+        [
+          0,
+          0.15
+        ],
+        [
+          30,
+          0.15
+        ]
+      ],
+      "dn": 100,
+      "od": 0.1143,
+      "insulation": 0,
+      "top_rl": 77.145,
+      "bottom_rl": 77.031,
+      "sheet": "F-121",
+      "priority": 2
+    },
+    {
+      "id": "CT-22-01",
+      "system": "ELEC",
+      "family": "TRAY",
+      "path": [
+        [
+          0,
+          2.55
+        ],
+        [
+          20,
+          2.55
+        ]
+      ],
+      "width": 0.6,
+      "depth": 0.1,
+      "top_rl": 76.23,
+      "bottom_rl": 76.13,
+      "sheet": "E-151",
+      "needs_access": [
+        "top"
+      ],
+      "priority": 3
+    },
+    {
+      "id": "DR-22-01",
+      "system": "SAN",
+      "family": "DRAIN",
+      "path": [
+        [
+          5,
+          3.0
+        ],
+        [
+          5,
+          0.0
+        ]
+      ],
+      "dn": 100,
+      "od": 0.11,
+      "fall": "1:60",
+      "invert_start_rl": 76.55,
+      "invert_end_rl": 76.495,
+      "sheet": "H-161",
+      "priority": 1
+    },
+    {
+      "id": "HHWS-22-01",
+      "system": "HHW",
+      "family": "PIPE",
+      "path": [
+        [
+          25,
+          3.0
+        ],
+        [
+          25,
+          0.0
+        ]
+      ],
+      "dn": 65,
+      "od": 0.0761,
+      "insulation": 0.025,
+      "sheet": "M-142"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+calc_id,discipline,title,stage,inputs,method,standard,year,clause,result,limit,verdict,assumed_inputs,script,script_version,date,checked_by_layer2,notes
+H-004,H,Cold water pressure zoning,S6,"outlet window 250–500 kPa; L5–L57 RLs from levels.json","static head per zone = window / (rho g)",AS/NZS 3500.1,2021,cl 3.3.4,"8 zones; residual at L57 = 262 kPa",">=250 kPa at any outlet",PASS,"none","hyd_zoning.py",1.0,2026-09-14,"GPT blind re-calc 8 zones / 258 kPa (diff 1.5%)",

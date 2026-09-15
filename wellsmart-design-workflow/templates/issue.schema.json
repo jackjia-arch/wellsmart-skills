@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://wellsmart.example/schemas/wsg.issue/1",
+  "title": "Well Smart IFC issue (wsg.issue/1)",
+  "description": "One issue picked in the 3D viewer or written from a confirmed clash-report line. The cross-release key of a component is model_id + ifc_global_id + db_id; an IFC localId / Express ID is per file and never stored. The anchor is in engineering coordinates of the frozen release; the snapshot is evidence, never the anchor. In pilot mode this JSON is a file under issues/ in the project repository. The example uses <angle-bracket> placeholders that a real record replaces with the full values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "issue_id", "release_id", "models", "components", "anchor", "viewpoint_ref", "snapshot_ref", "description", "status"],
+  "properties": {
+    "schema_version": {"const": "wsg.issue/1"},
+    "issue_id": {"type": "string", "minLength": 1, "description": "Server-issued, persistent, stable across releases and review rounds"},
+    "release_id": {"type": "string", "minLength": 1, "description": "The frozen release the issue was raised on; the before-view is bound to it"},
+    "models": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["model_id", "sha256"],
+        "properties": {
+          "model_id": {"type": "string", "minLength": 1, "description": "ARCH / STR / MEP … as the DB names the model"},
+          "sha256": {"type": "string", "minLength": 64, "maxLength": 64, "description": "Full SHA-256 of the IFC file in that release; a different hash is a different model"}
+        }
+      }
+    },
+    "components": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["model_id", "ifc_global_id", "db_id"],
+        "properties": {
+          "model_id": {"type": "string", "minLength": 1},
+          "ifc_global_id": {"type": "string", "minLength": 22, "maxLength": 22, "description": "IFC GlobalId (22 characters); what the viewer highlights"},
+          "db_id": {"type": "string", "minLength": 1, "description": "Design-database element id (e.g. DUCT-021); what the AI edits"}
+        }
+      }
+    },
+    "anchor": {
+      "type": "object", "additionalProperties": false, "required": ["frame_id", "unit", "xyz", "transform_snapshot_id"],
+      "properties": {
+        "frame_id": {"type": "string", "minLength": 1, "description": "Engineering frame of the release, e.g. project-engineering-r017"},
+        "unit": {"const": "m"},
+        "xyz": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}, "description": "Engineering coordinates in metres"},
+        "transform_snapshot_id": {"type": "string", "minLength": 1, "description": "The transform set used to compute xyz from viewer space"}
+      }
+    },
+    "viewpoint_ref": {"type": "string", "description": "Camera, clipping planes and visible-component set, restorable in the viewer and exportable to BCF"},
+    "snapshot_ref": {"type": "string", "description": "Saved image at submission; evidence only"},
+    "description": {"type": "string", "minLength": 1, "description": "The one sentence the person typed"},
+    "status": {"type": "string", "enum": ["UNTRIAGED", "OPEN", "READY_FOR_REVIEW", "CLOSED", "NEEDS_RELOCATION"]},
+    "type": {"type": "string", "enum": ["clash", "clearance", "maintenance", "other"]},
+    "created_by": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "history": {
+      "type": "array",
+      "description": "Append-only status changes; CLOSED needs verified evidence on the new release, never the designer's reply alone",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["status", "actor", "timestamp"],
+        "properties": {
+          "status": {"type": "string", "enum": ["UNTRIAGED", "OPEN", "READY_FOR_REVIEW", "CLOSED", "NEEDS_RELOCATION"]},
+          "actor": {"type": "string"},
+          "timestamp": {"type": "string", "format": "date-time"},
+          "note": {"type": "string", "description": "What was verified or changed; closure evidence goes here"},
+          "release_id": {"type": "string", "description": "The release the status refers to (after-release for READY_FOR_REVIEW / CLOSED)"}
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "wsg.issue/1",
+      "issue_id": "DEMO-0042",
+      "release_id": "DEMO-r017",
+      "models": [
+        {"model_id": "MEP", "sha256": "<full IFC SHA-256>"},
+        {"model_id": "STR", "sha256": "<full IFC SHA-256>"}
+      ],
+      "components": [
+        {"model_id": "MEP", "ifc_global_id": "<IFC GlobalId>", "db_id": "DUCT-021"},
+        {"model_id": "STR", "ifc_global_id": "<IFC GlobalId>", "db_id": "BEAM-008"}
+      ],
+      "anchor": {
+        "frame_id": "project-engineering-r017",
+        "unit": "m",
+        "xyz": [12.35, 8.62, 18.45],
+        "transform_snapshot_id": "xf-r017"
+      },
+      "viewpoint_ref": "<camera / clipping / visible components>",
+      "snapshot_ref": "<saved image>",
+      "description": "DEMO: duct clashes with beam; prefer east reroute and retain corridor clear height.",
+      "status": "UNTRIAGED"
+    }
+  ]
+}

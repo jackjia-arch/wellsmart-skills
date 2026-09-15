@@ -1,0 +1,45 @@
+# Well Smart design server — one company Linux box, three containers, no per-employee credentials.
+#   runner      watches the shared project folders, runs reviews / sheet QA / book builds
+#   web         serves the project books (static files) on port 8080 inside the box
+#   tunnel      Cloudflare Tunnel: public HTTPS hostname on the company domain, no open ports
+# Prerequisite on the host: the shared Drive mounted at /srv/projects (see rclone-mount.service).
+services:
+  runner:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PROJECTS_ROOT: /srv/projects
+      SITE_ROOT: /srv/site
+      GIT_ROOT: /srv/git
+      SKILL_ROOT: /opt/skill
+      LIBRARY_ROOT: /opt/library
+      RUNNER_STATE: /srv/git/runner-state.json
+    volumes:
+      - /srv/projects:/srv/projects          # the mounted shared drive (read/write)
+      - site:/srv/site
+      - git:/srv/git
+      - ../:/opt/skill:ro                    # this skill (scripts/peer_review.py, scripts/annotate.py)
+      - ${LIBRARY_PATH:-./library}:/opt/library:ro
+    command: ["python3", "/opt/skill/deploy/runner.py"]
+
+  web:
+    image: caddy:2
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - site:/srv/site:ro
+    ports:
+      - "127.0.0.1:8080:8080"                # only local; the tunnel reaches it by service name
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on: [web]
+
+volumes:
+  site:
+  git:

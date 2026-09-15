@@ -1,0 +1,51 @@
+# Optional: run the reviewer without anyone's computer.
+# Copy to <project-repo>/.github/workflows/review-on-tag.yml
+# Store the reviewer key as a repository secret (OPENAI_API_KEY or GEMINI_API_KEY).
+# Trigger: push a tag like G4-MECH-v3, S8-ALL-v1 or ADHOC-M-141-v2 after committing the version (and, from
+# round 2, reviews/<task>/round-<n>/responses.json). The task is the tag without its -v<n> suffix; the drawing
+# stream is derived from the task by the script (G4-MECH -> MECH, otherwise ALL) unless STREAM is set below.
+# States written to reviews/<task>/state.json: VALIDATING -> FROZEN -> REVIEWING -> RESPONSE_REQUIRED / CLOSED /
+# HUMAN_REQUIRED. A pre-check FAIL stops the job before anything is frozen (see the packet step's log);
+# selfcheck stops it before the reviewer is called if anything conclusive reached packet/blind/.
+name: peer-review
+on:
+  push:
+    tags: ["G1-*-v*", "G3-*-v*", "G4-*-v*", "G4A-*-v*", "G5-*-v*", "S8-*-v*", "ADHOC-*-v*"]
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Work out the task from the tag   # G4-MECH-v3 -> task G4-MECH
+        run: |
+          TAG="${GITHUB_REF_NAME}"; TASK="${TAG%-v*}"
+          echo "TASK=$TASK" >> $GITHUB_ENV
+      - name: Pre-check and build the packet (VALIDATING -> FROZEN)
+        run: python3 scripts/peer_review.py packet --task "$TASK" --tag "$GITHUB_REF_NAME"
+      - name: Selfcheck the blind packet (nothing conclusive in packet/blind/)
+        run: python3 scripts/peer_review.py selfcheck --task "$TASK"
+      - name: Review (pass 1 blind -> freeze -> pass 2 comparison -> pass 3 drawings)
+        env:
+          WS_REVIEWER_PROVIDER: openai
+          WS_REVIEWER_MODEL: ${{ vars.WS_REVIEWER_MODEL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python3 scripts/peer_review.py review --task "$TASK"
+      - name: Responses template when the state is RESPONSE_REQUIRED
+        if: always()
+        run: |
+          STATE=$(python3 -c "import json;print(json.load(open('reviews/$TASK/state.json')).get('state',''))" 2>/dev/null || echo "")
+          echo "state: $STATE"
+          if [ "$STATE" = "RESPONSE_REQUIRED" ]; then python3 scripts/peer_review.py respond --task "$TASK"; fi
+      - name: Commit the round
+        if: always()
+        run: |
+          git config user.name "peer-review-bot"; git config user.email "bot@users.noreply.github.com"
+          git add reviews issues
+          git commit -m "review: $TASK round from $GITHUB_REF_NAME" || echo "nothing to commit"
+          # the round lands on a review branch; the operator (or Claude) merges it into main
+          git push --force origin HEAD:refs/heads/review/$TASK
