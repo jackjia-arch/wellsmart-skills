@@ -1,8 +1,8 @@
 # Project knowledge base — ADD / REVISE / ATTACH, current by use, releases, endorsements, assets, handover
 
-One project, one permanent URL, from design to operations. The project's permanent ProjectBook page is created at S0 and is the address the operations team still opens years after handover. Files accumulate: every stage output, review round, consultant response, construction record and maintenance job is merged into the same catalogue by ID. Nothing is ever replaced by a new folder, a new site or a zip assembled at completion; the knowledge base is only ever added to or revised. Public browsing needs no login. Staff add, revise or attach through the project page; the AI registers its outputs through the same ingestion service the staff form uses — there is no private AI path into the catalogue. Jack owns the ProjectBook product (`references/project-book.md`); the PM owns the project's records until handover, the Operation Owner afterwards.
+One project, one permanent URL, from design to operations. The project's permanent Project Book page is created at S0 and is the address the operations team still opens years after handover. Files accumulate: every stage output, review round, consultant response, construction record and maintenance job is merged into the same catalogue by ID. Nothing is ever replaced by a new folder, a new site or a zip assembled at completion; the knowledge base is only ever added to or revised. Public browsing needs no login. Staff add, revise or attach through the project page; the AI registers its outputs through the same ingestion service the staff form uses — there is no private AI path into the catalogue. Jack owns the Project Book product (`references/project-book.md`); the PM owns the project's records until handover, the Operation Owner afterwards.
 
-The ProjectBook is Well Smart's own product and the AI reaches it through its connector (`references/project-book.md`). This file is the workflow contract the ProjectBook implements: what the records mean, what may and may not change, who decides. Anything the ProjectBook cannot yet do is reported as `UNVERIFIED — ProjectBook`, never worked around.
+The Project Book is Well Smart's own product and the AI reaches it through its connector (`references/project-book.md`). This file is the workflow contract the Project Book implements: what the records mean, what may and may not change, who decides. Anything the Project Book cannot yet do is reported as `UNVERIFIED — Project Book`, never worked around.
 
 ## Who owns what
 
@@ -17,7 +17,7 @@ The ProjectBook is Well Smart's own product and the AI reaches it through its co
 
 ## The staff procedure — only this task's new or changed content
 
-Staff use the ProjectBook page (Jack's product; its screens are its own). What the workflow requires of that procedure, whatever the buttons are called: open the project's permanent page and confirm the project name; choose "new content" for a document that does not exist yet, "new version" from the existing file's card for a revision (the `document_id` is carried over automatically), "add attachment" for evidence that must not replace the main file; submit only the files that are new or changed this time — everything else is retained; check the mapping the AI pre-filled (project, discipline, level / system, document name, version relation) and never let a same-named file overwrite silently; a duplicate of an already-registered file shows "already exists" and creates no revision; read the merge summary (added / revised / attached / retained / deleted) before submitting; the submission lands as a draft, and someone with the existing authority publishes it as current when the gate or release allows; the job is done only when the ProjectBook returns document numbers and links — "saved locally" is not "registered". The AI does exactly the same through the connector (`references/project-book.md`).
+Staff use the Well Smart Project Book (IT brief V1.1): sign in with the company email; choose the entry (company announcement / project design / design progress) and the project; submit the HTML body with attachments (≤ 20 MB uploaded; larger files as company Drive links); a new output creates a document, a change is "update" on the existing document — never a new folder replacing the project; the author is the signed-in staff member, written by the server (AI-assisted work is marked, but the responsible publisher is a real employee); the revision note is mandatory (R01: first publication and main content; later: what changed, why, what it affects) and the platform refuses a publication without it; preview, then publish — the platform validates completeness, attachments and base-revision conflicts, saves the new revision, updates the index and switches the current pointer, and returns the stable link and the revision link; nothing counts as published before those links come back. The AI does the same through the connector under the operator's identity (`references/project-book.md`). Every published page carries the Project Book's comments section: a review link bound to the revision goes to the PD, comments and replies stay in the thread with status (pending / replied / resolved), email alerts go to the people involved, and a comment is never an endorsement or a sign-off.
 
 ## The fixed sentence for the AI
 
@@ -25,10 +25,10 @@ Staff say: "把任务 XXX 的新增 / 修改产物加入项目 YYY 的原知识�
 
 The AI then:
 
-1. Reads the ProjectBook records for project YYY through the connector and lists what task XXX produced or changed since its last registration.
+1. Reads the Project Book records for project YYY through the connector and lists what task XXX produced or changed since its last registration.
 2. Matches each output to an existing `document_id` by identity fields — sheet number, calc ID, model id, report type plus scope, asset id — never by filename alone. No match → ADD. Match with changed bytes → REVISE with the parent revision. Identical hash → "already exists", no new revision. Evidence → ATTACH to the exact revision or asset.
 3. Writes the impact list for every REVISE: the calcs, sheets, models, BQ lines and signed scopes that depend on the changed object. Only an engineering change updates the DB and reruns dependents; a letter, a photo, a completed form or an annotation-only file triggers no recalculation.
-4. Submits the batch as drafts and returns the draft links and the impact list. It does not publish. Publishing happens under the gate or release that governs the content, by the person with that authority, through the ProjectBook's publish operation.
+4. Submits the batch as drafts and returns the draft links and the impact list. It does not publish. Publishing happens under the gate or release that governs the content, by the person with that authority, through the Project Book's publish operation.
 
 | Document family | Identity key for the match | Typical revision trigger |
 |---|---|---|
@@ -105,7 +105,7 @@ Nothing outside the affected scope changes. If any step fails the old revision s
 
 ## Daily reconciliation, monthly exception report
 
-The ProjectBook runs the housekeeping (daily reconciliation and backup at 02:00 project time; an exception report on the first business day of each month at 09:00). The workflow's rules about them: archiving happens at publish time, never by monthly tidying; the PM (the Operation Owner after handover) spends about 20 minutes a month on the exception list only — items awaiting review for too long, missing endorsements, missing as-built / O&M, broken links, records without an owner, backup failures — and assigns an owner and a date to each; nobody re-uploads or hand-archives anything; recovery targets and restore tests are the product's acceptance items, and the workflow cites them as `UNVERIFIED` until the ProjectBook reports them met.
+The Project Book runs the housekeeping (daily reconciliation and backup at 02:00 project time; an exception report on the first business day of each month at 09:00). The workflow's rules about them: archiving happens at publish time, never by monthly tidying; the PM (the Operation Owner after handover) spends about 20 minutes a month on the exception list only — items awaiting review for too long, missing endorsements, missing as-built / O&M, broken links, records without an owner, backup failures — and assigns an owner and a date to each; nobody re-uploads or hand-archives anything; recovery targets and restore tests are the product's acceptance items, and the workflow cites them as `UNVERIFIED` until the Project Book reports them met.
 
 ## Endorsement registration
 
@@ -182,4 +182,4 @@ After handover the URL stays; the home page defaults to the operations use; the 
 - Publishing from the AI's own session; treating "original stored" or "converting" as "published"; showing "AI has received it" for a draft saved locally.
 - Filling a serial number, install date, warranty date or test result that is not in a registered record.
 - Rerunning calculations because a letter or photo was attached; not rerunning them after a real engineering change.
-- Claiming a ProjectBook capability, scheduled job or restore target is proven when the ProjectBook has not reported it; guessing a connector tool name instead of reading the tool list.
+- Claiming a Project Book capability, scheduled job or restore target is proven when the Project Book has not reported it; guessing a connector tool name instead of reading the tool list.

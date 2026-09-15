@@ -1,6 +1,6 @@
 # IFC development, web review and issues the AI can locate
 
-Selected stack: Python + IfcOpenShell for design, the ProjectBook's 3D viewer for browser review, Blender + Bonsai for technical staff. Ordinary staff open only the project's ProjectBook page; nobody installs Blender to review a model. S4 puts architecture, structure, interiors and MEP space reservations online; S7 adds main runs, equipment, penetrations, insulation and maintenance envelopes. Browser picking of issues is the product development scope of this period: what follows is the implementation contract, not a connected project feature — its end-to-end status is UNVERIFIED. The design source is always the DB and the parameter scripts (`references/db-schema.md`); the IFC is the engineering model; the `.frag` is a web derivative; a web mesh is never edited as if it were the design.
+Selected stack: Python + IfcOpenShell for design, Blender + Bonsai for technical staff, the Project Book for publishing releases, clash reports and issues. A browser 3D viewer with picking is a planned Project Book feature and is not in V1.1 (2026-09-15); until it exists, ordinary staff review the published views, sections and clash tables, technical staff drive Bonsai for the PD, and every issue is still the same `wsg.issue/1` record so nothing changes when the viewer arrives. S4 puts architecture, structure, interiors and MEP space reservations online; S7 adds main runs, equipment, penetrations, insulation and maintenance envelopes. Browser picking of issues is the product development scope of this period: what follows is the implementation contract, not a connected project feature — its end-to-end status is UNVERIFIED. The design source is always the DB and the parameter scripts (`references/db-schema.md`); the IFC is the engineering model; the `.frag` is a web derivative; a web mesh is never edited as if it were the design.
 
 ## Tools and their roles
 
@@ -8,9 +8,9 @@ Selected stack: Python + IfcOpenShell for design, the ProjectBook's 3D viewer fo
 |---|---|---|
 | Generate / revise IFC | Python + IfcOpenShell | Native IFC from the DB and parameter scripts with stable GlobalId, DB ID, storeys, systems, connections and element properties. The AI changes source parameters; it never treats the web mesh as the design source |
 | Automatic clash and clearance | IfcClash + IfcOpenShell geometry tree | Per discipline combination: solid intersection, insulation outer envelope, maintenance / door-swing / replacement space; valid connections and opening rules listed separately. Output both GUIDs, location, the rule checked and the evidence |
-| Staff web walk-through and picking | The ProjectBook 3D viewer (Jack's product; web IFC libraries are its implementation choice) | Level / discipline filters, clipping, walk, click-to-locate, the issue panel; picking returns model, element and point so the contract below can be met |
+| Staff web walk-through and picking | Future Project Book 3D viewer (`UNVERIFIED — Project Book viewer`; web IFC libraries are its implementation choice) | When built: level / discipline filters, clipping, walk, click-to-locate, the issue panel; picking returns model, element and point so the contract below is met. Until then: Blender + Bonsai walks by technical staff, published views and clash tables for everyone |
 | Technical staff local check | Blender + Bonsai | IFC visualisation, offline diagnosis, necessary manual model repair; engineering changes go back to the DB by element ID. A plain Blender mesh does not replace IFC semantics |
-| Web loading package | The ProjectBook's IFC → web-mesh conversion, tool versions pinned per release | Convert each release once and cache it; split by level / discipline; keep the original IFC for download and hash verification |
+| Web loading package | The Project Book's IFC → web-mesh conversion, tool versions pinned per release | Convert each release once and cache it; split by level / discipline; keep the original IFC for download and hash verification |
 
 Engines and runbooks (OpenSees, EnergyPlus, structural `.e2k`) are in `references/toolchain.md`; the tool versions used for a release are written into the release record and the brief's version lock.
 
@@ -107,7 +107,7 @@ Development example from the handbook; IDs and coordinates are illustrative, not
 | `description` | The one sentence the person typed, plus the issue type when the form asks for it |
 | `status` | UNTRIAGED → OPEN → READY_FOR_REVIEW → CLOSED / NEEDS_RELOCATION |
 
-An issue draft can be saved by anyone without login as UNTRIAGED; confirming, processing and verifying use the company's existing authorisation in the ProjectBook. When the viewer is not available in a session, an issue is the same JSON as a file under `issues/` in the project repository, written by the AI operator from a person's description or from a confirmed clash-report line, and registered in the ProjectBook when the connector is present; the peer-review register `issues/issue-register.csv` stays the register that `scripts/peer_review.py` writes (`references/review-hub.md`).
+An issue draft can be saved by anyone without login as UNTRIAGED; confirming, processing and verifying use the company's existing authorisation in the Project Book. When the viewer is not available in a session, an issue is the same JSON as a file under `issues/` in the project repository, written by the AI operator from a person's description or from a confirmed clash-report line, and registered in the Project Book when the connector is present; the peer-review register `issues/issue-register.csv` stays the register that `scripts/peer_review.py` writes (`references/review-hub.md`).
 
 ## Issue states and AI handling
 
@@ -126,7 +126,7 @@ What the AI does with an OPEN issue, in order:
 3. Change the DB by element id; record the change request if a frozen parameter moves (`references/db-schema.md`).
 4. Rerun only the affected calcs; regenerate only the affected sheets and BQ lines; regenerate the IFC for the affected models.
 5. Rerun the clash check on the new models against every other model in the release; every remaining or new clash is an issue.
-6. Register the new release in the ProjectBook and mark the issue READY_FOR_REVIEW with the before / after releases; return the list of what changed.
+6. Register the new release in the Project Book and mark the issue READY_FOR_REVIEW with the before / after releases; return the list of what changed.
 7. Stop. Closure is a person's or an independent review's decision on verified evidence, never the AI's own.
 
 Rules that hold in every case:
@@ -140,7 +140,7 @@ Rules that hold in every case:
 
 ## Viewer completeness — acceptance before anyone reviews on the web
 
-Web IFC converters do not convert every IFC class by default. The ProjectBook's conversion must have the required classes configured explicitly and verified after each conversion: MEP elements, equipment, openings and penetrations, proxies (IfcBuildingElementProxy) and the check volumes. Coverage of reviewable elements and their GUIDs must be 100 % — count the elements per class in the IFC and in the web mesh and reconcile the difference to zero or to a listed, justified exclusion. A missing element on the web is never evidence that there is no clash. Openings, clearances and other objects with no ordinary solid are shown on a separate check layer, and the quantity reconciliation states how each such object is represented.
+Web IFC converters do not convert every IFC class by default. The Project Book's conversion must have the required classes configured explicitly and verified after each conversion: MEP elements, equipment, openings and penetrations, proxies (IfcBuildingElementProxy) and the check volumes. Coverage of reviewable elements and their GUIDs must be 100 % — count the elements per class in the IFC and in the web mesh and reconcile the difference to zero or to a listed, justified exclusion. A missing element on the web is never evidence that there is no clash. Openings, clearances and other objects with no ordinary solid are shown on a separate check layer, and the quantity reconciliation states how each such object is represented.
 
 ## Acceptance targets — not yet executed
 
@@ -180,11 +180,11 @@ A release is frozen as a set:
 - the model-check report and the clash report for this release;
 - the impact list of what changed since the previous release, and the old → new id mapping for split or replaced elements;
 - the web-mesh package per level / discipline with the converter version pinned, plus the required-class configuration used for the conversion and the element-count reconciliation;
-- the tool versions (IfcOpenShell, IfcClash, the ProjectBook converter) and the DB commit the models were generated from.
+- the tool versions (IfcOpenShell, IfcClash, the Project Book converter) and the DB commit the models were generated from.
 
-The web mesh is a derivative of the IFC revision in the ProjectBook, never a document of its own; the original IFC stays downloadable for verification (`references/project-knowledge-base.md`). "Original stored" and "converting" are separate states, and a failed conversion is retried, never shown as a published viewer. Releases are registered through the ProjectBook connector and published to a use only through the gate that governs them; an S4 release is walked by the PD without any gate, an S7 release is what G5 freezes.
+The web mesh is a derivative of the IFC revision in the Project Book, never a document of its own; the original IFC stays downloadable for verification (`references/project-knowledge-base.md`). "Original stored" and "converting" are separate states, and a failed conversion is retried, never shown as a published viewer. Releases are registered through the Project Book connector and published to a use only through the gate that governs them; an S4 release is walked by the PD without any gate, an S7 release is what G5 freezes.
 
-When the viewer is not yet available for a release, the IFC is inspected in Blender + Bonsai by technical staff, who can drive it for the PD; the clash report is read as a document; issues are written as files under `issues/` and registered later. A viewer capability the ProjectBook has not demonstrated stays UNVERIFIED, and no page may show it as working.
+When the viewer is not yet available for a release, the IFC is inspected in Blender + Bonsai by technical staff, who can drive it for the PD; the clash report is read as a document; issues are written as files under `issues/` and registered later. A viewer capability the Project Book has not demonstrated stays UNVERIFIED, and no page may show it as working.
 
 ## Manual Revit hand-off at S10
 

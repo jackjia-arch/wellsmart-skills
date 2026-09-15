@@ -102,7 +102,7 @@ The mock provider (`WS_REVIEWER_PROVIDER=mock`) needs no key and returns nothing
 
 ## Where the loop runs
 
-The operator's Claude (Cowork or Claude Code) runs the script directly with the reviewer key in its environment; the round folders and the register live in the project repository and every round's `feedback.json`, register update and gate summary are registered in the ProjectBook like any other output (`references/project-book.md`).
+The operator's Claude (Cowork or Claude Code) runs the script directly with the reviewer key in its environment; the round folders and the register live in the project repository and every round's `feedback.json`, register update and gate summary are registered in the Project Book like any other output (`references/project-book.md`).
 
 GitHub (`templates/review-on-tag.yml`): pushing a tag `G4-MECH-v3`, `S8-ALL-v1` or `ADHOC-M-141-v2` runs `packet` → `selfcheck` → `review` → `respond` in Actions with the key in the repository secrets and pushes the round to a `review/<task>` branch. Nobody's computer needs to be on.
 

@@ -1,5 +1,5 @@
 {
-  "endorsement_id": "<END-NNNN, issued by the ProjectBook on ATTACH kind endorsement>",
+  "endorsement_id": "<END-NNNN, issued by the Project Book on ATTACH kind endorsement>",
   "document_id": "<DOC-<DISC>-<NNNN> of the endorsed document>",
   "revision_id": "<Rnn — the exact revision the signature covers; the only revision that may be marked consultant-endorsed>",
   "revision_sha256": "<SHA-256 of the registered revision's original bytes>",

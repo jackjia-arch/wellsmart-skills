@@ -23,7 +23,7 @@ Library items reused (path, locked version):
 | Calc-ID coverage on drawings | | 100 % / n missing | |
 | Sheet QA (`scripts/annotate.py check`) — crossings / text-on-line / density | | | |
 | Model checks (IFC ↔ DB) | | | |
-| ProjectBook registration (every output of this stage has a document_id / revision_id) | | | |
+| Project Book registration (every output of this stage has a document_id / revision_id) | | | |
 
 A passing row here says the data is consistent; the technical judgement is in sections 4, 5 and 9.
 

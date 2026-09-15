@@ -105,7 +105,7 @@ Decision records with value-engineering dollar figures stay internal; the DBR st
 The AI assembles it in this order:
 
 1. Confirm S8 is CLOSED and G6 signed: no P0 / P1, no FAIL, no expired blocking assumption. If any is open the package is not built.
-2. Register every output in the knowledge base (ADD / REVISE by `document_id`), then freeze a project release: `project_release_id` → the full list of `document_id` / `revision_id` / SHA-256 (`references/project-knowledge-base.md`, through the ProjectBook connector).
+2. Register every output in the knowledge base (ADD / REVISE by `document_id`), then freeze a project release: `project_release_id` → the full list of `document_id` / `revision_id` / SHA-256 (`references/project-knowledge-base.md`, through the Project Book connector).
 3. Generate from the catalogue, never by hand: the transmittal; the drawing index; the version manifest with hashes; the per-file list.
 4. Write the transmittal: what is asked of each signatory and under which package (A / B / C); the responsibility split from the regional table; the review programme; how comments are returned (issue register ids, or the issue APIs when live); and that the PD is the contact for external correspondence.
 5. Publish the release as `current_design` for the scope "S9 package" and hand over the URL and the manifest. The documents carry their date; revision identity comes from the manifest, never from a hand-typed label.
@@ -142,7 +142,7 @@ Each authority process is a separate line in the pathway and in the S9 programme
 
 Every endorsed or signed original and its covering letter go into the same project knowledge base, within one working day of receipt (company target). The procedure:
 
-1. In the ProjectBook add the consultant endorsement against the record or the package (the connector's ATTACH, bound to the exact revision). Upload the received signed originals, the endorsement letter or the original confirmation email, and the exact file list.
+1. In the Project Book add the consultant endorsement against the record or the package (the connector's ATTACH, bound to the exact revision). Upload the received signed originals, the endorsement letter or the original confirmation email, and the exact file list.
 2. Identify what was signed: bind `document_id`, `revision_id` and the SHA-256 of the original for each file; for a package signature keep the per-file manifest. The AI proposes the match, the PM verifies it. A mismatch or an unclear scope stays "pending" and is not marked endorsed.
 3. Keep the originals byte-for-byte. Previews, OCR text and search extracts are linked derivatives. Where a digital signature exists, record its verification result; a scanned signature is never recorded as a verified digital signature.
 4. Mark only the covered revision "consultant-endorsed", with the scope (floors, systems, disciplines) and any conditions. A later design change creates a new revision that never copies the old signature or inherits the endorsement; the affected signed scope goes back to its S9 package.

@@ -1,6 +1,6 @@
-# UI guidance — for every HTML the AI publishes, and for judging a ProjectBook page
+# UI guidance — for every HTML the AI publishes, and for judging a Project Book page
 
-Part II of the handbook (UI Guidance 1.0) defines the product interface for design, review, procurement, the knowledge base and operations: Apple-like restraint, hierarchy and familiarity. The ProjectBook is Jack's product and implements this guidance; the AI uses it in two ways: every HTML it produces (sheets, calc books, gate reports, coverage tables) follows the engineering-content and status rules below so the ProjectBook can present them unchanged, and when asked to judge a ProjectBook page it checks the page against this file. The handbook's own demo screens are static examples; nothing in them is connected to a real project or backend, and every demo value is labelled DEMO.
+Part II of the handbook (UI Guidance 1.0) defines the product interface for design, review, procurement, the knowledge base and operations: Apple-like restraint, hierarchy and familiarity. The Well Smart Project Book (IT brief V1.1) implements this guidance and wraps every published HTML in its own outer page — author, time, revision history, attachment cards and the comments section — so a document never carries its own header, navigation or comment UI. The AI uses this file in two ways: every HTML it produces (sheets, calc books, gate reports, coverage tables) follows the engineering-content and status rules below so the Project Book can present them unchanged, and when asked to judge a Project Book page it checks the page against this file. The handbook's own demo screens are static examples; nothing in them is connected to a real project or backend, and every demo value is labelled DEMO.
 
 ## Three principles
 
@@ -181,7 +181,7 @@ Ingestion and publish feedback: show project, document number, revision, use, th
 | Monthly project check | The PM's (after handover the Operation Owner's) home page lists unassigned files, missing evidence, overdue tasks and handover gaps; exceptions are handled monthly with no manual moving of old versions |
 | Operations home page | After handover defaults to asset and system search, location, as-built drawings, O&M, commissioning, warranty and maintenance plan; keeps adding fault, service and alteration records; design history and the frozen handover baseline are retained |
 
-Development convention: the platform is the ProjectBook (`references/project-book.md`); technical components appear in developer notes only, the staff interface shows project, file, status and result. Handover completeness is shown as "completed / required" against the confirmed list, with the reason and confirming person kept for every N/A.
+Development convention: the platform is the Project Book (`references/project-book.md`); technical components appear in developer notes only, the staff interface shows project, file, status and result. Handover completeness is shown as "completed / required" against the confirmed list, with the reason and confirming person kept for every N/A.
 
 ## Builder prompt
 
