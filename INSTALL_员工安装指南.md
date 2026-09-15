@@ -6,7 +6,7 @@
 
 1. 打开 Claude 桌面版，左侧 **Customize（自定义）→ Plugins（插件）**。
 2. 点 **Add marketplace（添加插件市场）**，填仓库地址：`jackjia-arch/wellsmart-skills`（或完整地址 `https://github.com/jackjia-arch/wellsmart-skills`），确定。
-   仓库是私有的，第一次会要求登录 GitHub，用你被加进仓库的那个 GitHub 账号登录。
+   仓库是公开的，不需要 GitHub 账号，也不需要登录。
 3. 在插件列表里找到 **wellsmart-design-workflow**，点 **Install（安装）**。
 4. 打开这个插件，确认 Skills 里有 `wellsmart-design-workflow`，开关是打开的。
 5. 验证：新建一个 Cowork 任务，输入"我们的设计工作流有几个阶段、每个 gate 冻结什么？"——回答里出现 S0–S10、G0–G7、G4a 就说明装对了。
@@ -22,7 +22,7 @@
 /plugin install wellsmart-design-workflow@wellsmart-skills
 ```
 
-私有仓库需要这台电脑已经登录过 GitHub（终端里 `gh auth login` 一次即可）。更新：`/plugin update wellsmart-design-workflow@wellsmart-skills`，或者等它后台自动刷新。
+仓库公开，不需要登录 GitHub。更新：`/plugin update wellsmart-design-workflow@wellsmart-skills`，或者等它后台自动刷新。
 
 ## claude.ai 网页 / 手机聊天版
 
@@ -30,7 +30,7 @@
 
 ## 常见问题
 
-- **看不到插件 / 提示无权限**：你的 GitHub 账号还没被加进仓库，找 Jack 加你为 collaborator，然后在 Cowork 里重新登录 GitHub。
+- **找不到 marketplace / 添加失败**：地址要一字不差 `jackjia-arch/wellsmart-skills`；先把 Claude 桌面版更新到最新版再试。
 - **装了但 Claude 没按流程做**：先看插件是否处于启用状态；再确认你的提示里提到了项目名和阶段（例如"<项目> 跑 S6，专业 MECH"）。仍然不对，把 Claude 的回复截图发给 Jack，这算 skill 缺陷。
 - **版本号在哪看**：Plugins 页面插件卡片上；仓库里 `plugins/wellsmart-design-workflow/.claude-plugin/plugin.json` 的 `version`。
 

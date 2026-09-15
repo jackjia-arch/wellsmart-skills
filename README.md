@@ -4,9 +4,9 @@ Well Smart's skills for the AI-operated design workflow, packaged as a **plugin 
 
 ## Install (staff)
 
-**Cowork (Claude desktop app)** — Customize → Plugins → **Add marketplace** → enter `jackjia-arch/wellsmart-skills` (or the full `https://github.com/jackjia-arch/wellsmart-skills` URL) → install **wellsmart-design-workflow**. Cowork checks the marketplace for updates; **Update** on the marketplace pulls the latest version immediately. A private repository works once the app is signed in to GitHub.
+**Cowork (Claude desktop app)** — Customize → Plugins → **Add marketplace** → enter `jackjia-arch/wellsmart-skills` (or the full `https://github.com/jackjia-arch/wellsmart-skills` URL) → install **wellsmart-design-workflow**. Cowork checks the marketplace for updates; **Update** on the marketplace pulls the latest version immediately. The repository is public — no GitHub account and no sign-in needed.
 
-**Claude Code** — `/plugin marketplace add jackjia-arch/wellsmart-skills` then `/plugin install wellsmart-design-workflow@wellsmart-skills`. Marketplaces auto-refresh in the background; `/plugin update wellsmart-design-workflow@wellsmart-skills` forces it. Private repositories use the machine's git credentials (`gh auth login`).
+**Claude Code** — `/plugin marketplace add jackjia-arch/wellsmart-skills` then `/plugin install wellsmart-design-workflow@wellsmart-skills`. Marketplaces auto-refresh in the background; `/plugin update wellsmart-design-workflow@wellsmart-skills` forces it. The repository is public, so no git credentials are required.
 
 **Claude.ai chat** (no plugins there) — upload the packaged `wellsmart-design-workflow.skill` file under Settings → Capabilities → Skills. Repackage with the skill-creator packager from `plugins/wellsmart-design-workflow/skills/wellsmart-design-workflow/`.
 
