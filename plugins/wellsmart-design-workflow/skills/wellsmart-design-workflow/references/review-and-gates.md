@@ -19,7 +19,7 @@ What it catches: everything that is a matter of consistency or of a numeric limi
 | Clash | Hard clashes and clearance clashes: maintenance space, door swings, statutory headroom, penetrations versus structure | Unresolved geometry; an IFC issue per clash (`references/ifc-review.md`) |
 | Calc-ID coverage | 100 % of numbers on drawings resolve to a calc register row; calculation coverage per discipline against the template rows due at the stage (`scripts/calc_coverage.py` → `calcs/coverage-<stage>.csv`) | A number without a calc ID, or a due calc still NOT CALCULATED |
 | Sheet QA | `python3 scripts/annotate.py check <sheet>` and the embedded overlay counts: leader crossings, text on lines or text, density over threshold, content items missing for the sheet type | The sheet is not issued until the count is zero |
-| Model and catalogue integrity | Model checks after every IFC generation (`references/toolchain.md`); `scripts/catalogue.py` ids, hashes and revision links | The package cannot be frozen against a complete manifest |
+| Model and registration integrity | Model checks after every IFC generation (`references/toolchain.md`); ProjectBook ids, hashes and revision links | The package cannot be frozen against a complete manifest |
 
 A version whose script checks fail is not packeted for review. Script success is a data-consistency result, never an engineering PASS: a sheet can be internally consistent and wrong, so the gate report keeps script results in their own section, separate from technical judgement.
 
@@ -206,7 +206,7 @@ Round states, who acts and what each leaves behind:
 
 | State | Meaning | Who acts | Record |
 |---|---|---|---|
-| REQUESTED | A review of `<gate>-<stream>` has been asked for | Operator (one sentence, or `REQUEST.json` on the company server) | The request with task, stream, note |
+| REQUESTED | A review of `<gate>-<stream>` has been asked for | Operator (one sentence) | The request with task, stream, note |
 | VALIDATING | Pre-check running on the working tree | Scripts | `reports/checks.json`; a failing version is not frozen |
 | FROZEN | Packet built from a commit and hashed | Script | `round-<n>/index.json` with commit, file hashes, packet hash |
 | REVIEWING | Blind pass, comparison, drawings and interfaces | Reviewer family | `calls/*.raw.txt`, `feedback.json` |

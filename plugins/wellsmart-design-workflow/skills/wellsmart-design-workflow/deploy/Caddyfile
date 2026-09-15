@@ -1,8 +1,0 @@
-# Static project books. Public access is by the Cloudflare Tunnel; nothing here needs a login.
-:8080 {
-    root * /srv/site
-    file_server browse
-    encode gzip
-    header Cache-Control "public, max-age=120"
-    header X-Robots-Tag "all"
-}

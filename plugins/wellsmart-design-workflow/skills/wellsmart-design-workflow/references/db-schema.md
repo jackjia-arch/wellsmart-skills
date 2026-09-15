@@ -4,9 +4,6 @@ One JSON file per domain in `db/`. Units: millimetres for geometry in the DB, me
 
 ```
 <project>/
-├── catalogue.json   the project knowledge-base catalogue (documents, revisions, attachments,
-│                    current_by_use, releases, events) — see references/project-knowledge-base.md,
-│                    maintained only by scripts/catalogue.py or the portal API
 ├── db/
 │   ├── project.json     code, name, jurisdiction, code_edition, state_variations, building_class,
 │   │                    type_of_construction, effective_height_m, rise_in_storeys, units, base_point,
@@ -59,8 +56,8 @@ The brief's version lock (`references/library-and-repos.md`) also fixes the ID s
 
 | ID | Format | Issued by | Notes |
 |---|---|---|---|
-| `document_id` | `DOC-<DISC>-<NNNN>` (e.g. `DOC-MECH-0034`) | `scripts/catalogue.py add` or the portal on ADD | One per logical document (a sheet number, a calc ID, a stage calc book, a gate report, a model + release …); identity keys in `references/project-knowledge-base.md` |
-| `revision_id` | `R01`, `R02` … per document | The catalogue on ADD / REVISE | Immutable; each revision carries its parent, reason, impact list and SHA-256; never reused, never edited |
+| `document_id` | `DOC-<DISC>-<NNNN>` (e.g. `DOC-MECH-0034`) | the ProjectBook on ADD | One per logical document (a sheet number, a calc ID, a stage calc book, a gate report, a model + release …); identity keys in `references/project-knowledge-base.md` |
+| `revision_id` | `R01`, `R02` … per document | The ProjectBook on ADD / REVISE | Immutable; each revision carries its parent, reason, impact list and SHA-256; never reused, never edited |
 | `asset_id` | `AST-<DISC>-<NNNN>` (`templates/asset-register.csv`) | Assigned at S5 when equipment is selected | Follows the physical asset through procurement, installation and operations; a replacement is a new asset with `replaces_asset_id` |
 | `system_id` | The system key as the discipline file names it, scoped where a system is per level or per zone (e.g. `CHW-P`, `SA-L22`, `CW-Z3`) | The DB at S1 / S3 | Used as a knowledge-base scope value, in the pump-logic deliverables and in `services-routes.json` |
 | `space_id` | The room / space `id` in `rooms.json` | The DB at S2 | Rooms, corridors, plant rooms, risers and shafts are all spaces |
@@ -74,7 +71,7 @@ Element ids are never renumbered: an element that is deleted has its id retired 
 Every object in the DB carries, beside its design fields:
 
 - `owner` — the field responsibility: the discipline or role that may change it (ARCH, STR, MECH, ELEC, HYD, FIRE, ID, VT, procurement, drafting-team, site);
-- `source_revision` — the catalogue revision or the change request / write-back record the current value came from;
+- `source_revision` — the ProjectBook revision or the change request / write-back record the current value came from;
 - `depends_on[]` — the ids (elements, calc IDs, assumptions, product SKUs, digest record ids) whose change would invalidate this object.
 
 Generators read `depends_on` to compute the impact list of any change: the calcs, sheets, models, BQ lines and signed scopes that depend on the changed object. A change reruns only those dependents — nothing else — and that same list is the impact list written into the REVISE record and the change request. A calc with no `depends_on` on its inputs, or a sheet whose manifest cites an element it does not depend on, fails the DB consistency check.
@@ -122,6 +119,6 @@ Used after every manual version of an output — a Revit model, a hand-edited sh
 3. A design change — a dimension, load, material, equipment, interface, control or performance value, or a new anchor, support or penetration — → write the new value into the DB field by stable element id, with `source_revision` set to the write-back record; then, from `depends_on`, rerun only the affected calcs, regenerate only the affected sheets, models and BQ lines, and set `written_back = Y` on the override record.
 4. New design content created manually (a support the DB did not have, a penetration added on site) is added to the DB as a new element with a new id and its dependencies, not left only in the output.
 5. If a signed scope is affected (an endorsement whose `scope` includes the changed object), return that part to the S9 package for re-confirmation; unaffected endorsements remain valid. A later revision never inherits an endorsement.
-6. Register the outputs with `scripts/catalogue.py revise` (or the portal), impact list attached; publish only under the gate or release that governs them.
+6. Register the outputs through the ProjectBook connector (REVISE), impact list attached; publish only under the gate or release that governs them.
 
 A generator overwriting a manual value that is not in the register, a manual change that is not diffed, and a design change recorded as "no design change" are all defects.

@@ -2,7 +2,7 @@
 
 A review round needs five things: a frozen version, a packet the reviewer can read, an independent reviewer that cannot see our answers, a place where issues live with stable ids, and a stop rule. None of them needs a server. The project repository freezes versions (a commit, or a content hash when git is absent), holds the packet (`reviews/<task>/round-<n>/packet/`), the issues (`issues/issue-register.csv`) and the round record (`feedback.json`, `record.json`); the reviewer is a second model family called through its API; the stop rule is enforced by the script. `scripts/peer_review.py` does all of it. The operator runs it from Claude Code with one sentence ("跑 G4 机电的审阅"); Claude, as designer, reads the findings and fixes the DB. The project book publishes every round as static pages.
 
-What review must achieve, the four layers, the high-risk table, the gate exit criteria and the 99 % validation are in `references/review-and-gates.md`; this file is the mechanics only. The same script runs on the operator's computer, on the company server (`deploy/runner.py`, the pilot substitute for the ProjectBook portal in `references/hosting.md`) and in CI (`templates/review-on-tag.yml`).
+What review must achieve, the four layers, the high-risk table, the gate exit criteria and the 99 % validation are in `references/review-and-gates.md`; this file is the mechanics only. The same script runs on the operator's computer (Cowork or Claude Code) and in CI (`templates/review-on-tag.yml`).
 
 ## How a round runs
 
@@ -25,7 +25,7 @@ Task names are validated: `G1-<what>`, `G3-<what>`, `G4-<STREAM>` (ARCH ID STR M
 
 | State | Set when | Leaves behind |
 |---|---|---|
-| REQUESTED | The task exists and nothing has run (or `REQUEST.json` was dropped on the company server) | `state.json` |
+| REQUESTED | The task exists and nothing has run  | `state.json` |
 | VALIDATING | `packet` started; the pre-check is running. A pre-check FAIL leaves the task here with the reason | `round-<n>/precheck.json` |
 | FROZEN | The packet is built and every file hash is in `index.json`; the selfcheck passed | `round-<n>/packet/{blind,full}/`, `index.json` |
 | REVIEWING | `review` is running (pass 1 → freeze → pass 2 → pass 3) | `blind/answer.json`, `calls/*`, `record.json` |
@@ -100,9 +100,9 @@ P3 never blocks: `respond` lists them, the designer may answer `noted`, and `pac
 
 The mock provider (`WS_REVIEWER_PROVIDER=mock`) needs no key and returns nothing that is engineering: its blind values are the product of the numeric inputs, its round-1 replies raise one P1 (the first over-tolerance calc), one P2 (the seeded missing graphic) and one P3, its round-2 replies verify and close them. `WS_MOCK_MODE` = `pass`, `changes`, `needs_human`, `malformed`, `timeout`, `timeout_after_blind` exercise the pass rule, the five-round stop, HUMAN_REQUIRED, the retry and the resume of a frozen blind answer. The handbook asks for exactly this before a real key is used.
 
-## Company-server and CI variants
+## Where the loop runs
 
-Company server (`deploy/runner.py`, the pilot substitute until the ProjectBook portal exists — `references/hosting.md`): the operator's Claude drops `reviews/<task>/REQUEST.json` (`{"task": "G4-MECH"}`, optionally `"stream"`, `"full_share"`, `"allow_fail": "<reason>"`, `"note"`) into the project folder on the shared drive. The runner snapshots the folder into its server-side git, runs `packet`, then `selfcheck` (it never calls `review` if that fails), then `review`, then `respond` when the state is RESPONSE_REQUIRED, and renames the request `REQUEST.done.json` with the state, verdict, round, request_id and reason. A pre-check block or a selfcheck failure produces `REQUEST.error.txt` with the pre-check list and the next step, the state stays VALIDATING, and no round is consumed. A review that ends in HUMAN_REQUIRED is a completed request (`done`, with the reason), not an error. `STATUS.md` in the project root shows the last runs. No key, no login, no command on the employee's side — `deploy/README-IT.md`.
+The operator's Claude (Cowork or Claude Code) runs the script directly with the reviewer key in its environment; the round folders and the register live in the project repository and every round's `feedback.json`, register update and gate summary are registered in the ProjectBook like any other output (`references/project-book.md`).
 
 GitHub (`templates/review-on-tag.yml`): pushing a tag `G4-MECH-v3`, `S8-ALL-v1` or `ADHOC-M-141-v2` runs `packet` → `selfcheck` → `review` → `respond` in Actions with the key in the repository secrets and pushes the round to a `review/<task>` branch. Nobody's computer needs to be on.
 

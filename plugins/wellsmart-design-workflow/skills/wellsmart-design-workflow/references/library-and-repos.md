@@ -22,7 +22,7 @@ The company's own parts bin, rule book and memory: when the AI gets a new projec
 wellsmart-skills/                      (GitHub) — this skill and future ones; the planned implementation package
 └── wellsmart-design-workflow/
     ├── SKILL.md
-    ├── references/   templates/   scripts/   deploy/   evals/
+    ├── references/   templates/   scripts/   evals/
 
 wellsmart-design-library/              (GitHub) — the company library
 ├── index.md                           what exists, one line each, with paths and versions
@@ -41,10 +41,9 @@ wellsmart-design-library/              (GitHub) — the company library
 <project-code>/                        one repository per project
 ├── brief/  site/  db/  calcs/  drawings/  model/  thermal/  reports/  issues/  reviews/
 ├── decisions.md
-└── catalogue.json                     the project knowledge-base catalogue (scripts/catalogue.py)
 ```
 
-Where the project repository lives: the working files sit in the shared Google Drive `Projects` sync folder, so Cowork (through the Drive connector or the linked computer) and Claude Code (local shell) see the same files, and the company server mounts the same folder for the runner (`references/hosting.md`). Git lives on the server — the runner keeps the repository as a bare snapshot in `/srv/git/<project>` — and the `.git` directory is never synced through Drive; staff never run git. Formal records (every stage output, revision and endorsement) are registered in the project knowledge base by ID (`references/project-knowledge-base.md`); the Drive folder is the working copy, not the record.
+Where the project repository lives: the working files sit in the shared Google Drive `Projects` sync folder, so Cowork (through the Drive connector or the linked computer) and Claude Code (local shell) see the same files; git history is kept by whoever runs Claude Code on the folder (the `.git` directory is never synced through Drive; staff never run git). Formal records (every stage output, revision and endorsement) are registered in the ProjectBook by ID (`references/project-knowledge-base.md`, `references/project-book.md`); the Drive folder is the working copy, not the record.
 
 Knowledge base (Dify / Claude Project): the AS/NZS standards, NCC volumes with state variations, NZBC acceptable solutions and verification methods, product datasheets, test reports and the lessons folder, indexed by standard number and year. Standards ingestion is Dong's task: the PDFs are shared from Jack's Drive to the company account, loaded and indexed. Citing rule: query the knowledge base (or the digest, `references/standards-digest.md`) before citing any clause; every citation carries standard number, year, clause and the digest record id where one exists; text not found → `CLAUSE TO CONFIRM`, listed in the gate report — never a clause from memory.
 

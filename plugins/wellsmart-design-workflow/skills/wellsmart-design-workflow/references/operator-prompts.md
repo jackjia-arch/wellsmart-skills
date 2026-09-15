@@ -37,7 +37,7 @@ Prompts below are given in Chinese (what staff type) with the English equivalent
 | Review round | 跑 <G4-MECH> 的审阅。 / 回答 <任务> 的 open issues。 | Packet → blind pass → comparison → drawings pass → feedback.json; then responses.json to fill; state name and open issues by severity. |
 | Change request | <项目> 变更：[改什么]。评估影响。 | Impact list (calcs / sheets / models / BQ lines to rerun), cost and programme effect, PD decision required before regeneration. |
 | Decision | <项目> 决策：[方案 A / B / C]，持有期 [年]。 | Decision record with CAPEX, annual net OPEX, TCO, ΔCAPEX, simple annual return (≥ 15 % rule), payback, risks; PD decision line. |
-| Upload | 把任务 <XXX> 的新增 / 修改产物加入项目 <YYY> 的原知识库，匹配 document_id，保留所有未改内容；先返回入库草稿链接和影响清单，正式生效按已有 gate 执行。 | Draft link and impact list; nothing becomes current until the gate / release. |
+| Upload (ProjectBook) | 把任务 <XXX> 的新增 / 修改产物加入项目 <YYY> 的原知识库，匹配 document_id，保留所有未改内容；先返回入库草稿链接和影响清单，正式生效按已有 gate 执行。 | The AI registers the files through the ProjectBook connector (ADD / REVISE / ATTACH) and returns the draft links and impact list; nothing becomes current until the gate / release. If the connector is not in the session it says so and leaves the batch in `kb-outbox/`. |
 | EnergyPlus results | 读 [results.json 版本链接] 和 [report.md 版本链接]，核对同一批输入与运行结果，更新 gate report，S5 用这份负荷。 | Loads and façade comparison in the gate report; results.json fields quoted; run_status checked. |
 | IFC issues | 处理本版已确认的问题。 | Per issue: source change, reruns, new release READY_FOR_REVIEW; NEEDS_RELOCATION where the element is gone. |
 | Handover | <项目> 冻结 Handover Baseline，范围 [楼层 / 系统]。 | Scope, manifest with hashes, asset register completeness by the S0 matrix, open items with owners, retrieval test list. |

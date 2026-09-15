@@ -1,6 +1,6 @@
 # BQ with spec, the calc book, and decision records (first principles · TCO · simple annual return)
 
-Three "one file" deliverables. Each is generated from the repository, never typed: the BQ from the DB (plus ratio rules in the estimate, plus the installation detail in the procurement version), the calc book from `calcs/`, the decision records from `decisions.md`. All three are HTML (`references/hosting.md` says why), each with a JSON export for machines, and all three are registered in the project knowledge base by ID (`references/project-knowledge-base.md`). File names carry a date, never a revision label; the revision is the catalogue's `revision_id`.
+Three "one file" deliverables. Each is generated from the repository, never typed: the BQ from the DB (plus ratio rules in the estimate, plus the installation detail in the procurement version), the calc book from `calcs/`, the decision records from `decisions.md`. All three are HTML readable without JavaScript (`references/project-book.md`), each with a JSON export for machines, and all three are registered in the project knowledge base by ID (`references/project-knowledge-base.md`). File names carry a date, never a revision label; the revision is the catalogue's `revision_id`.
 
 ## 1 BQ with spec — two versions
 

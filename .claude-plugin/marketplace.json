@@ -7,7 +7,7 @@
       "name": "wellsmart-design-workflow",
       "source": "./plugins/wellsmart-design-workflow",
       "description": "Brief-to-sign-off AI design workflow: stages S0-S10, gates, calc coverage, 2D services coordination, drawings, peer review, knowledge base, handover",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": { "name": "Well Smart" },
       "category": "engineering",
       "keywords": ["design", "engineering", "MEP", "structure", "BIM", "IFC", "calculations", "drawings"]

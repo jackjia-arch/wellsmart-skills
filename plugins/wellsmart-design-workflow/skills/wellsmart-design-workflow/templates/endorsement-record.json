@@ -1,8 +1,8 @@
 {
-  "endorsement_id": "<END-NNNN, issued by scripts/catalogue.py attach --kind endorsement, or the portal>",
+  "endorsement_id": "<END-NNNN, issued by the ProjectBook on ATTACH kind endorsement>",
   "document_id": "<DOC-<DISC>-<NNNN> of the endorsed document>",
   "revision_id": "<Rnn — the exact revision the signature covers; the only revision that may be marked consultant-endorsed>",
-  "revision_sha256": "<SHA-256 of the catalogue revision's original bytes>",
+  "revision_sha256": "<SHA-256 of the registered revision's original bytes>",
   "sha256": "<SHA-256 of the received signed original, byte-for-byte, as received>",
   "attachment_id": "<ATT-NNNN of the stored signed original / letter>",
   "signer": "<person who signed, as named on the document>",
@@ -17,7 +17,7 @@
       "document_id": "<DOC-<DISC>-<NNNN> of each file in a package signature, one line per signed file>",
       "revision_id": "<Rnn>",
       "sha256": "<SHA-256 of that file's original>",
-      "verified": "<true when the line matches the catalogue; any false line keeps status 'to be confirmed'>"
+      "verified": "<true when the line matches the registered revision; any false line keeps status 'to be confirmed'>"
     }
   ],
   "digital_signature_verified": false,

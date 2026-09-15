@@ -5,7 +5,7 @@ peer_review.py — the two-model review loop, v2. No server: the project reposit
 A review round is a folder, a frozen version is a commit (or a content hash when git is absent),
 the reviewer is a second model family called through its API, and every issue lives in
 issues/issue-register.csv with a stable id. The script runs on the operator's computer
-(Claude Code), on the company server (deploy/runner.py) or in CI (templates/review-on-tag.yml).
+(Claude Code) or in CI (templates/review-on-tag.yml).
 
 Commands
   packet    --task T [--stream S] [--full-share F] [--tag TAG] [--allow-fail REASON]

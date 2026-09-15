@@ -14,7 +14,7 @@ One sheet per procurement package. Manufacturing is released only by this sheet;
 | Specification section(s) | | | | | yes / no |
 | Schedules / schematics referenced | | | | | yes / no |
 
-Frozen release cited (`scripts/catalogue.py release`): project_release_id = 
+Frozen ProjectBook release cited: project_release_id = 
 
 ## 2. Release conditions
 
@@ -51,4 +51,4 @@ Items that must close before the next decision (line numbers, owners, dates):
 | PD | | | YYYY-MM-DD |
 | Procurement | | | YYYY-MM-DD |
 
-This sheet is registered in the knowledge base against the package (`scripts/catalogue.py add … --doc-type release-sheet`) and cited in the gate report's releases table. A release is not an endorsement, not a publication and not a technical PASS; it is the fourth separate fact.
+This sheet is registered in the ProjectBook against the package (ADD, document type release sheet) and cited in the gate report's releases table. A release is not an endorsement, not a publication and not a technical PASS; it is the fourth separate fact.

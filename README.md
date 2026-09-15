@@ -40,16 +40,15 @@ plugins/wellsmart-design-workflow/
 │   ├── annotation-rules.md      twelve annotation rules, the defect catalogue, declare → lay out → check
 │   ├── bq-and-calc-book.md      BQ ESTIMATE vs PROCUREMENT, stage calc book, decision records (simple annual return)
 │   ├── ifc-review.md            IfcOpenShell / That Open / Bonsai, coordinate contract, wsg.issue/1, states, acceptance, manual Revit hand-off
-│   ├── project-knowledge-base.md  ADD / REVISE / ATTACH, current_by_use, publish-effective, endorsements, assets, handover
-│   ├── hosting.md               PILOT (company server, deploy/) vs TARGET (Netlify portal + Runner / API + PostgreSQL + S3, UNVERIFIED)
-│   ├── ui-guidance.md           Part II: tokens, six views, status semantics, components, engineering content, builder prompt, verification
+│   ├── project-knowledge-base.md  ADD / REVISE / ATTACH, current_by_use, publish-effective, endorsements, assets, handover (the contract the ProjectBook implements)
+│   ├── project-book.md          publishing through the ProjectBook connector; the outbox when the connector is absent
+│   ├── ui-guidance.md           Part II: tokens, views, status semantics, engineering-content rules for every HTML the AI publishes
 │   ├── toolchain.md             open-source toolchain; EnergyPlus staff guide and results.json v2; OpenSees / .e2k
 │   ├── library-and-repos.md     company library, repositories, knowledge base, project version lock
 │   ├── standards-digest.md      standards digest levels, extraction agreement, version lock
 │   └── db-schema.md             design database, IDs, dependencies, overrides register, id-map, services routes
 ├── scripts/
 │   ├── peer_review.py           review loop: pre-check → blind packet → review passes → responses; states; P0–P3; demo / selfcheck
-│   ├── catalogue.py             knowledge-base catalogue (pilot): add / revise / attach / publish / release / list / history / check
 │   ├── calc_coverage.py         coverage file per stage from the calc master list: init / check / summary / html / blank
 │   ├── coord_check.py           2D services coordination checker: envelope, crossings, depth budget, parallel clearance, drains; SVG
 │   └── annotate.py              annotation engine (aligned columns, non-crossing leaders, keyed notes) + sheet checker
@@ -61,15 +60,13 @@ plugins/wellsmart-design-workflow/
 │   ├── services-routes.example.json · crossings.example.json
 │   ├── qa-overlay.js            the in-sheet QA script
 │   └── review-on-tag.yml        optional GitHub Actions review trigger
-├── deploy/                      company server pilot: docker-compose (runner + Caddy + Cloudflare Tunnel), runner.py (folder-drop review
-│                                requests, sheet QA, book builds), rclone mount unit, README-IT (中文)
 └── evals/evals.json             test prompts
 ```
 
 ## What lives elsewhere
 
-The company library (`wellsmart-design-library`: modules, products, details, checks, rules, lessons, cost, standards digest), the standards knowledge base (AS/NZS, NCC, NZBC PDFs in Dify / the Claude Project) and the project knowledge base (ProjectBook portal, UNVERIFIED until built; `scripts/catalogue.py` and `deploy/` in the meantime) are separate. The skill references their paths and schemas; they change without touching the skill.
+The company library (`wellsmart-design-library`: modules, products, details, checks, rules, lessons, cost, standards digest), the standards knowledge base (AS/NZS, NCC, NZBC PDFs in Dify / the Claude Project) and the ProjectBook (Jack's project knowledge-base product; the AI publishes through its connector) are separate. The skill references their paths and schemas; they change without touching the skill.
 
 ## Maintaining
 
-Edit Markdown, commit, re-copy or re-package. Keep `SKILL.md` under about 500 lines; put detail in `references/`. Record decisions that change the process in the handbook first, then here. Run the script self-tests before packaging: `python3 scripts/peer_review.py demo <dir> --run`, `python3 scripts/catalogue.py selftest`, `python3 scripts/calc_coverage.py selftest`, `python3 scripts/coord_check.py selftest`, `python3 scripts/annotate.py demo <out.html>`.
+Edit Markdown, commit, re-copy or re-package. Keep `SKILL.md` under about 500 lines; put detail in `references/`. Record decisions that change the process in the handbook first, then here. Run the script self-tests before packaging: `python3 scripts/peer_review.py demo <dir> --run`, `python3 scripts/calc_coverage.py selftest`, `python3 scripts/coord_check.py selftest`, `python3 scripts/annotate.py demo <out.html>`.
