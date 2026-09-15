@@ -1,0 +1,16 @@
+{
+  "name": "wellsmart-skills",
+  "owner": { "name": "Well Smart", "email": "jackjia6@gmail.com" },
+  "metadata": { "description": "Well Smart's AI-operated design workflow skills for Cowork and Claude Code" },
+  "plugins": [
+    {
+      "name": "wellsmart-design-workflow",
+      "source": "./plugins/wellsmart-design-workflow",
+      "description": "Brief-to-sign-off AI design workflow: stages S0-S10, gates, calc coverage, 2D services coordination, drawings, peer review, knowledge base, handover",
+      "version": "0.3.0",
+      "author": { "name": "Well Smart" },
+      "category": "engineering",
+      "keywords": ["design", "engineering", "MEP", "structure", "BIM", "IFC", "calculations", "drawings"]
+    }
+  ]
+}

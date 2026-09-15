@@ -33,6 +33,7 @@ Read this file fully, then open the reference file for the stage or task at hand
 | Looking up a code value, building or querying the standards digest | `references/standards-digest.md` |
 | Creating or editing the design database, IDs, overrides, id-map | `references/db-schema.md` |
 | Telling the PM / operator what to type at each step; judging whether a prompt is missing something | `references/operator-prompts.md` |
+| Finding out whether a named generator, checker or platform capability exists yet, and what to do when it does not | `references/implementation-status.md` |
 
 Templates live in `templates/` (brief, DBR, calc register, gate report, compliance matrix, issue register, decision record, release sheet, handover matrix, asset register, endorsement record, commissioning tests, EnergyPlus results schema, issue schema, services-routes and crossings examples, QA overlay, CI review workflow) and `templates/calc-templates/` (the calculation master list and the calc page format). Copy them; do not invent new formats.
 

@@ -1,0 +1,7 @@
+{
+  "name": "wellsmart-design-workflow",
+  "version": "0.3.0",
+  "description": "Well Smart's AI-operated building design workflow: brief to sign-off-ready package, manual Revit production, procurement, construction records and operations handover. Includes the calculation master list, 2D services coordination checker, peer-review loop, knowledge-base catalogue and drawing annotation engine.",
+  "author": { "name": "Well Smart", "email": "jackjia6@gmail.com" },
+  "keywords": ["design", "engineering", "MEP", "structure", "BIM", "IFC", "calculations", "drawings"]
+}

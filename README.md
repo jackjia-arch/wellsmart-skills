@@ -1,22 +1,27 @@
 # wellsmart-skills
 
-Skills for Well Smart's AI-operated design workflow. Each folder is one skill: a `SKILL.md` (instructions the AI reads when the skill triggers) plus `references/` (read on demand), `templates/`, `scripts/` and, for the company-server pilot, `deploy/`.
+Well Smart's skills for the AI-operated design workflow, packaged as a **plugin marketplace** so Cowork and Claude Code pull updates straight from this repository. One plugin today (`wellsmart-design-workflow`); the design library and other company skills become further plugins in `plugins/`.
 
-## Install
+## Install (staff)
 
-**Claude Code (desktop app Code feature or terminal)** — clone this repository and copy or symlink the skill folder into a skills directory:
+**Cowork (Claude desktop app)** — Customize → Plugins → **Add marketplace** → enter `<github-owner>/wellsmart-skills` (or the full `https://github.com/<github-owner>/wellsmart-skills` URL) → install **wellsmart-design-workflow**. Cowork checks the marketplace for updates; **Update** on the marketplace pulls the latest version immediately. A private repository works once the app is signed in to GitHub.
 
-- personal: `~/.claude/skills/wellsmart-design-workflow/`
-- per project: `<project-repo>/.claude/skills/wellsmart-design-workflow/`
+**Claude Code** — `/plugin marketplace add <github-owner>/wellsmart-skills` then `/plugin install wellsmart-design-workflow@wellsmart-skills`. Marketplaces auto-refresh in the background; `/plugin update wellsmart-design-workflow@wellsmart-skills` forces it. Private repositories use the machine's git credentials (`gh auth login`).
 
-Claude Code lists it under available skills; it triggers on design-workflow requests automatically, or on request by name.
+**Claude.ai chat** (no plugins there) — upload the packaged `wellsmart-design-workflow.skill` file under Settings → Capabilities → Skills. Repackage with the skill-creator packager from `plugins/wellsmart-design-workflow/skills/wellsmart-design-workflow/`.
 
-**Claude.ai / Cowork** — upload the packaged `wellsmart-design-workflow.skill` file (Settings → Capabilities → Skills, or the Save skill button on a shared skill file). Repackage after editing with the skill-creator packager or by zipping the folder.
+## Update (Jack)
+
+Edit the files, bump `version` in `plugins/wellsmart-design-workflow/.claude-plugin/plugin.json` and in `.claude-plugin/marketplace.json` (Cowork and Claude Code detect a new version, or a new commit when no version is declared), commit and push. Pushing can be done from Claude Code on any machine with GitHub credentials, or from a Claude session with the GitHub connector (the AI commits the changed files through the connector). Nobody re-uploads anything by hand.
 
 ## Layout
 
 ```
-wellsmart-design-workflow/
+.claude-plugin/marketplace.json          the marketplace index (plugins, versions)
+plugins/wellsmart-design-workflow/
+├── .claude-plugin/plugin.json          the plugin manifest (name, version)
+└── skills/wellsmart-design-workflow/          (tree below is relative to this folder)
+
 ├── SKILL.md                     the workflow: 18 hard rules, roles, stage map, output formats
 ├── references/
 │   ├── stages.md                S0–S10 and after: inputs, AI work, outputs, freezes, people; manual Revit; write-back; handover
@@ -26,6 +31,7 @@ wellsmart-design-workflow/
 │   ├── certification.md         regions (QLD RPEQ, NSW DBP, NZ PS1/PS2, Japan), packages A / B / C, ten contract items, endorsements
 │   ├── calc-coverage.md         the "no silent omission" rule: master list, coverage file, statuses, filling rules
 │   ├── operator-prompts.md      what the PM / operator types at each step (中文 + English); the skill carries the rest
+│   ├── implementation-status.md what ships in the skill, what the library / project repo must build, what is UNVERIFIED
 │   ├── services-coordination-2d.md  2D clash avoidance before 3D: lanes, ceiling-zone budget, crossings register, per-stage MEP drawing spec
 │   ├── drawing-standards.md     numbering, depth benchmark (HY-0040), annotation, QA overlay, manifest
 │   ├── drawing-list.md          sheets per checkpoint and per level; level–sheet–revision matrix
